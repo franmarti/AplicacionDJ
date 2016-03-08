@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Plaza 25 de Mayo"
-                        android:id="@+id/tvId"
+                        android:id="@+id/tvNombre"
                         android:layout_marginLeft="5dp"
                         android:textColor="#ff000000" />
 
@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Es la plaza principal de la ciudad de San Juan y es donde se encuentra el kilómetro 0 de la provincia."
-                        android:id="@+id/tvNombre"
+                        android:id="@+id/tvDescripcion"
                         android:layout_marginLeft="5dp"
                         android:textColor="#ff868686" />
 

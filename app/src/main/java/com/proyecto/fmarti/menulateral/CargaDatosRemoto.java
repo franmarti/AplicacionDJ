@@ -4,6 +4,8 @@ package com.proyecto.fmarti.menulateral;
  * Created by fmarti on 07/03/2016.
  */
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -15,6 +17,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,16 +46,17 @@ public class CargaDatosRemoto extends AppCompatActivity {
 
 
     // url to get all products list
-    private static String url_all_usuarios = "http://projectinf.esy.es/www/getAllEstablecimientos.php";
+    private static String url_all_establecimientos = "http://projectinf.esy.es/www/getAllEstablecimientos.php";
+    private static String URL_IMAGENES = "http://projectinf.esy.es/imagenes/";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_PRODUCTS = "usuarios";
+    private static final String TAG_PRODUCTS = "establecimientos";
     private static final String TAG_ID = "id";
     private static final String TAG_NOMBRE = "nombre";
     private static final String TAG_MUSICA = "musica";
     private static final String TAG_DESCRIPCION = "descripcion";
-    private static final String TAG_IMAGEN = "imagen";
+    private static final String TAG_IMAGEN = "rutaimagen";
 
     // products JSONArray
     JSONArray products = null;
@@ -61,7 +68,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
     ArrayList<String> id = new ArrayList<String>();
     ArrayList<String> musica = new ArrayList<String>();
     ArrayList<String> descripcion = new ArrayList<String>();
-    ArrayList<String> imagen = new ArrayList<String>();
+    ArrayList<Bitmap> imagen = new ArrayList<Bitmap>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,13 +97,17 @@ public class CargaDatosRemoto extends AppCompatActivity {
         LayoutInflater inflater;
         ArrayList<String> nombre;
         ArrayList<String> id;
+        ArrayList<String> descripcion;
+        ArrayList<Bitmap> imagen;
 
 
 
-        public ListViewAdapter(Context context,  ArrayList<String> nombre, ArrayList<String> id ) {
+        public ListViewAdapter(Context context,  ArrayList<String> nombre, ArrayList<String> id, ArrayList<String> descripcion, ArrayList<Bitmap> imagen ) {
             this.context = context;
             this.nombre = nombre;
             this.id = id;
+            this.descripcion = descripcion;
+            this.imagen = imagen;
         }
 
         @Override
@@ -118,7 +129,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
 
             // Declare Variables
             ImageView imgImg;
-            TextView txtId;
+            TextView txtDescripcion;
             TextView txtNombre;
 
             //http://developer.android.com/intl/es/reference/android/view/LayoutInflater.html
@@ -128,12 +139,12 @@ public class CargaDatosRemoto extends AppCompatActivity {
 
             // Locate the TextViews in listview_item.xml
             imgImg = (ImageView) itemView.findViewById(R.id.imgTV);
-            txtId = (TextView) itemView.findViewById(R.id.tvId);
+            txtDescripcion = (TextView) itemView.findViewById(R.id.tvDescripcion);
             txtNombre = (TextView) itemView.findViewById(R.id.tvNombre);
 
             // Capture position and set to the TextViews
-            imgImg.setImageResource(R.drawable.header);
-            txtId.setText(id.get(position));
+            imgImg.setImageBitmap(imagen.get(position));
+            txtDescripcion.setText(descripcion.get(position));
             txtNombre.setText(nombre.get(position));
 
             return itemView;
@@ -150,7 +161,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(CargaDatosRemoto.this);
-            pDialog.setMessage("Cargando usuarios. Por favor espere...");
+            pDialog.setMessage("Cargando establecimientos. Por favor espere...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -163,8 +174,8 @@ public class CargaDatosRemoto extends AppCompatActivity {
             // Building Parameters
             List params = new ArrayList();
             // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest(url_all_usuarios, "GET", params);
-
+            JSONObject json = jParser.makeHttpRequest(url_all_establecimientos, "GET", params);
+            Bitmap bitmap;
             // Check your log cat for JSON reponse
             Log.d("All Products: ", json.toString());
 
@@ -183,23 +194,41 @@ public class CargaDatosRemoto extends AppCompatActivity {
                         JSONObject c = products.getJSONObject(i);
 
                         // Storing each json item in variable
-                        String idJson = c.getString(TAG_ID);
+                        String description = c.getString(TAG_DESCRIPCION);
                         String name = c.getString(TAG_NOMBRE);
+                        String idJson = c.getString(TAG_ID);
+                        String rutaimagen = c.getString(TAG_IMAGEN);
 
-                        id.add(idJson);
+                        descripcion.add(description);
                         nombre.add(name);
+                        id.add(idJson);
+                        System.out.println("Ruta de la imagen: --->" + rutaimagen);
+                        if(rutaimagen.equals("noimage")){
+                            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
+                        }
+                        else{
+                            URL urlImagen = new URL(URL_IMAGENES + rutaimagen);
+                            HttpURLConnection conimagen = (HttpURLConnection) urlImagen.openConnection();
+                            conimagen.connect();
+                            bitmap = BitmapFactory.decodeStream(conimagen.getInputStream());
+                        }
+                        imagen.add(bitmap);
 
                         // creating new HashMap
-                        HashMap map = new HashMap();
+                       // HashMap map = new HashMap();
 
                         // adding each child node to HashMap key => value
-                        map.put(TAG_ID, idJson);
-                        map.put(TAG_NOMBRE, name);
+                       // map.put(TAG_DESCRIPCION, descripcion);
+                        //map.put(TAG_NOMBRE, name);
 
-                        listaUsuarios.add(map);
+                        //listaUsuarios.add(map);
                     }
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
@@ -233,7 +262,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
                     lista.setAdapter(adapter);
                     */
                     ListView lista = (ListView) findViewById(R.id.lvUsuarios);
-                    adapter = new ListViewAdapter(getApplicationContext(), nombre, id);
+                    adapter = new ListViewAdapter(getApplicationContext(), nombre, id, descripcion, imagen);
                     lista.setAdapter(adapter);
                 }
             });
