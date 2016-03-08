@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.item_navigation_drawer_settings:
                                 menuItem.setChecked(true);
                                 textView.setText(menuItem.getTitle());
-                                Toast.makeText(MainActivity.this, "Launching " + menuItem.getTitle().toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Lanzando " + menuItem.getTitle().toString(), Toast.LENGTH_SHORT).show();
                                 drawerLayout.closeDrawer(GravityCompat.START);
-                                Intent intent = new Intent(MainActivity.this, MyActivity.class);
+                                Intent intent = new Intent(MainActivity.this, CargaDatosRemoto.class);
                                 startActivity(intent);
                                 return true;
                             case R.id.item_navigation_drawer_help_and_feedback:
