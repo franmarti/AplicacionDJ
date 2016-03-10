@@ -4,33 +4,29 @@
     <group android:checkableBehavior="single">
         <item
             android:checked="true"
-            android:id="@+id/item_navigation_drawer_inbox"
-            android:icon="@drawable/ic_inbox_black_24dp"
-            android:title="Inbox" />
+            android:id="@+id/item_navigation_drawer_establecimientos"
+            android:icon="@drawable/ic_library_music_black_24dp"
+            android:title="@string/menu1" />
         <item
-            android:id="@+id/item_navigation_drawer_starred"
-            android:icon="@drawable/ic_action_toggle_star"
-            android:title="Starred" />
+            android:id="@+id/item_navigation_drawer_buscar"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/menu2" />
         <item
-            android:id="@+id/item_navigation_drawer_sent_mail"
-            android:icon="@drawable/ic_action_content_send"
-            android:title="Sent mail" />
-        <item
-            android:id="@+id/item_navigation_drawer_drafts"
-            android:icon="@drawable/ic_action_content_drafts"
-            android:title="Drafts" />
+            android:id="@+id/item_navigation_drawer_sent_perfil"
+            android:icon="@drawable/ic_recent_actors_black_24dp"
+            android:title="@string/menu3" />
     </group>
 
-    <item android:title="Subheader">
+    <item android:title="@string/subtitulo">
         <menu>
             <item
-                android:id="@+id/item_navigation_drawer_settings"
-                android:icon="@drawable/ic_action_content_mail"
-                android:title="Settings" />
+                android:id="@+id/item_navigation_drawer_ajustes"
+                android:icon="@drawable/ic_action_action_settings"
+                android:title="@string/subtitulo1" />
             <item
-                android:id="@+id/item_navigation_drawer_help_and_feedback"
-                android:icon="@drawable/ic_action_action_delete"
-                android:title="Help and feedback" />
+                android:id="@+id/item_navigation_drawer_contacto"
+                android:icon="@drawable/ic_contact_mail_black_24dp"
+                android:title="@string/subtitulo2" />
         </menu>
     </item>
 

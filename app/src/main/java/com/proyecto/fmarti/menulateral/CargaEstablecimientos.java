@@ -34,7 +34,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class CargaDatosRemoto extends AppCompatActivity {
+public class CargaEstablecimientos extends AppCompatActivity {
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -73,7 +73,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_carga_datos_remoto);
+        setContentView(R.layout.activity_carga_establecimientos);
 
         // Hashmap para el ListView
         listaUsuarios = new ArrayList<HashMap<String, String>>();
@@ -135,7 +135,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
             //http://developer.android.com/intl/es/reference/android/view/LayoutInflater.html
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View itemView = inflater.inflate(R.layout.list_row, parent, false);
+            View itemView = inflater.inflate(R.layout.list_view_personalizado, parent, false);
 
             // Locate the TextViews in listview_item.xml
             imgImg = (ImageView) itemView.findViewById(R.id.imgTV);
@@ -160,7 +160,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(CargaDatosRemoto.this);
+            pDialog = new ProgressDialog(CargaEstablecimientos.this);
             pDialog.setMessage("Cargando establecimientos. Por favor espere...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -202,7 +202,6 @@ public class CargaDatosRemoto extends AppCompatActivity {
                         descripcion.add(description);
                         nombre.add(name);
                         id.add(idJson);
-                        System.out.println("Ruta de la imagen: --->" + rutaimagen);
                         if(rutaimagen.equals("noimage")){
                             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
                         }
@@ -246,21 +245,7 @@ public class CargaDatosRemoto extends AppCompatActivity {
                     /**
                      * Updating parsed JSON data into ListView
                      * */
-                    /*ListAdapter adapter = new SimpleAdapter(
-                            CargaDatosRemoto.this,
-                            listaUsuarios,
-                            R.layout.single_post,
-                            new String[] {
-                                    TAG_ID,
-                                    TAG_NOMBRE,
-                            },
-                            new int[] {
-                                    R.id.single_post_tv_id,
-                                    R.id.single_post_tv_nombre,
-                            });
 
-                    lista.setAdapter(adapter);
-                    */
                     ListView lista = (ListView) findViewById(R.id.lvUsuarios);
                     adapter = new ListViewAdapter(getApplicationContext(), nombre, id, descripcion, imagen);
                     lista.setAdapter(adapter);

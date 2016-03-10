@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">DJ Talk</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Ajustes</string>
+    <string name="action_about">Acerca de</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="title_activity_myactivity">Carga de datos</string>
     <string name="tv_email">doxs21@gmail.com</string>
     <string name="tv_nombre">Fran Martí</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="menu1">Establecimientos</string>
+    <string name="menu2">Buscar</string>
+    <string name="menu3">Perfil</string>
+    <string name="menu4">Drafts</string>
+    <string name="subtitulo">Más opciones</string>
+    <string name="subtitulo1">Ajustes</string>
+    <string name="subtitulo2">Contacto</string>
 </resources>
