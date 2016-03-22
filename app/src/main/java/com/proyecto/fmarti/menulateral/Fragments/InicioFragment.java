@@ -1,18 +1,26 @@
-package com.proyecto.fmarti.menulateral;
+package com.proyecto.fmarti.menulateral.Fragments;
 
-/**
- * Created by fmarti on 07/03/2016.
- */
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.proyecto.fmarti.menulateral.JSONParser;
+import com.proyecto.fmarti.menulateral.ListViewAdapter;
+import com.proyecto.fmarti.menulateral.MainActivity;
+import com.proyecto.fmarti.menulateral.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,12 +34,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.view.View;
-import android.widget.Toast;
 
-
-public class CargaEstablecimientos extends AppCompatActivity {
-
+/**
+ * Created by fmarti on 22/03/2016.
+ */
+public class InicioFragment extends Fragment {
     // Progress Dialog
     private ProgressDialog pDialog;
 
@@ -65,30 +72,57 @@ public class CargaEstablecimientos extends AppCompatActivity {
     ArrayList<String> descripcion = new ArrayList<String>();
     ArrayList<Bitmap> imagen = new ArrayList<Bitmap>();
 
+    View view;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_carga_establecimientos);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.activity_carga_establecimientos, container, false);
+
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Establecimientos");
 
         // Hashmap para el ListView
         listaUsuarios = new ArrayList<HashMap<String, String>>();
 
         // Cargar los productos en el Background Thread
-        new LoadAllProducts().execute();
+        if(id.isEmpty()){
+            new LoadAllProducts().execute();
+        }
+        else{
+            ListView lista = (ListView) view.findViewById(R.id.lvUsuarios);
+            adapter = new ListViewAdapter(getActivity(), nombre, id, descripcion, imagen);
+            lista.setAdapter(adapter);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
+                    switch (posicion) {
+                        case 0:
+                                    /*Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
+                                    startActivity(ii);*/
+                            Toast.makeText(getActivity(), "Item 1", Toast.LENGTH_SHORT).show();
+                            break;
+                        case 1:
+                            Toast.makeText(getActivity(), "Item 2", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            Toast.makeText(getActivity(), "Item 3", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
-    }//fin onCreate
 
-    public void onClickEst(){
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//        }
 
+
+
+        return view;
     }
-
-   //ListViewAdapter
-
 
     class LoadAllProducts extends AsyncTask<String, String, String> {
 
@@ -98,7 +132,7 @@ public class CargaEstablecimientos extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(CargaEstablecimientos.this);
+            pDialog = new ProgressDialog(getActivity());
             pDialog.setMessage("Cargando establecimientos. Por favor espere...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -152,10 +186,10 @@ public class CargaEstablecimientos extends AppCompatActivity {
                         imagen.add(bitmap);
 
                         // creating new HashMap
-                       // HashMap map = new HashMap();
+                        // HashMap map = new HashMap();
 
                         // adding each child node to HashMap key => value
-                       // map.put(TAG_DESCRIPCION, descripcion);
+                        // map.put(TAG_DESCRIPCION, descripcion);
                         //map.put(TAG_NOMBRE, name);
 
                         //listaUsuarios.add(map);
@@ -178,14 +212,14 @@ public class CargaEstablecimientos extends AppCompatActivity {
             // dismiss the dialog after getting all products
             pDialog.dismiss();
             // updating UI from Background Thread
-            runOnUiThread(new Runnable() {
-                public void run() {
+//            runOnUiThread(new Runnable() {
+//                public void run() {
                     /**
                      * Updating parsed JSON data into ListView
                      * */
 
-                    ListView lista = (ListView) findViewById(R.id.lvUsuarios);
-                    adapter = new ListViewAdapter(getApplicationContext(), nombre, id, descripcion, imagen);
+                    ListView lista = (ListView) view.findViewById(R.id.lvUsuarios);
+                    adapter = new ListViewAdapter(getActivity(), nombre, id, descripcion, imagen);
                     lista.setAdapter(adapter);
 
                     lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -195,26 +229,18 @@ public class CargaEstablecimientos extends AppCompatActivity {
                                 case 0:
                                     /*Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
                                     startActivity(ii);*/
-                                    Toast.makeText(getApplicationContext(), "Item 1", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Item 1", Toast.LENGTH_SHORT).show();
                                     break;
                                 case 1:
-                                    Toast.makeText(getApplicationContext(), "Item 2", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Item 2", Toast.LENGTH_SHORT).show();
                                     break;
                                 default:
-                                    Toast.makeText(getApplicationContext(), "Item 3", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Item 3", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-                }
-            });
+//                }
+//            });
         }
     }
-
-
-
-
-
-
-
-
 }

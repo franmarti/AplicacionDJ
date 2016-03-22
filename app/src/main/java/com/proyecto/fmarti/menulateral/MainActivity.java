@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.proyecto.fmarti.menulateral.Fragments.InboxFragment;
+import com.proyecto.fmarti.menulateral.Fragments.InicioFragment;
 import com.proyecto.fmarti.menulateral.Fragments.StarredFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -111,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                InboxFragment inboxFragment = new InboxFragment();
-                fragmentTransaction.replace(R.id.fragment, inboxFragment);
+                InicioFragment inicioFragment = new InicioFragment();
+                fragmentTransaction.replace(R.id.fragment, inicioFragment);
                 fragmentTransaction.commit();
                 break;
             case 1:
