@@ -21,11 +21,15 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CargaEstablecimientos"
             android:label="@string/title_activity_myactivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TabbedActivity"
+            android:label="@string/title_activity_tabbed"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -3,7 +3,9 @@ package com.proyecto.fmarti.menulateral;
 /**
  * Created by fmarti on 07/03/2016.
  */
+import android.app.Notification;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -11,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -32,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class CargaEstablecimientos extends AppCompatActivity {
@@ -63,7 +67,6 @@ public class CargaEstablecimientos extends AppCompatActivity {
 
     //variables
     ListViewAdapter adapter;
-    ListView lista;
     ArrayList<String> nombre = new ArrayList<String>();
     ArrayList<String> id = new ArrayList<String>();
     ArrayList<String> musica = new ArrayList<String>();
@@ -81,9 +84,6 @@ public class CargaEstablecimientos extends AppCompatActivity {
         // Cargar los productos en el Background Thread
         new LoadAllProducts().execute();
 
-
-
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -91,8 +91,12 @@ public class CargaEstablecimientos extends AppCompatActivity {
 
     }//fin onCreate
 
+    public void onClickEst(){
+
+    }
+
     public class ListViewAdapter extends BaseAdapter {
-        // Declare Variables
+        //Variables
         Context context;
         LayoutInflater inflater;
         ArrayList<String> nombre;
@@ -101,7 +105,7 @@ public class CargaEstablecimientos extends AppCompatActivity {
         ArrayList<Bitmap> imagen;
 
 
-
+        //Constructor
         public ListViewAdapter(Context context,  ArrayList<String> nombre, ArrayList<String> id, ArrayList<String> descripcion, ArrayList<Bitmap> imagen ) {
             this.context = context;
             this.nombre = nombre;
@@ -249,6 +253,24 @@ public class CargaEstablecimientos extends AppCompatActivity {
                     ListView lista = (ListView) findViewById(R.id.lvUsuarios);
                     adapter = new ListViewAdapter(getApplicationContext(), nombre, id, descripcion, imagen);
                     lista.setAdapter(adapter);
+
+                    lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
+                            switch (posicion) {
+                                case 0:
+                                    /*Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
+                                    startActivity(ii);*/
+                                    Toast.makeText(getApplicationContext(), "Item 1", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case 1:
+                                    Toast.makeText(getApplicationContext(), "Item 2", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(getApplicationContext(), "Item 3", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             });
         }

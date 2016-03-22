@@ -1,8 +1,9 @@
 package com.proyecto.fmarti.menulateral;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,15 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.proyecto.fmarti.menulateral.Fragments.InboxFragment;
+import com.proyecto.fmarti.menulateral.Fragments.StarredFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     ActionBar actionBar;
-    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setupNavigationDrawerContent(navigationView);
+
+        //First fragment
+        setFragment(0);
 
     }
 
@@ -65,39 +69,59 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        textView = (TextView) findViewById(R.id.textView);
                         switch (menuItem.getItemId()) {
                             case R.id.item_navigation_drawer_establecimientos:
                                 menuItem.setChecked(true);
-                                textView.setText(menuItem.getTitle());
-                                Toast.makeText(MainActivity.this, "Lanzando " + menuItem.getTitle().toString(), Toast.LENGTH_SHORT).show();
+                                setFragment(0);
                                 drawerLayout.closeDrawer(GravityCompat.START);
+                                /*Toast.makeText(MainActivity.this, "Lanzando " + menuItem.getTitle().toString(), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, CargaEstablecimientos.class);
-                                startActivity(intent);
+                                startActivity(intent);*/
                                 return true;
                             case R.id.item_navigation_drawer_buscar:
                                 menuItem.setChecked(true);
-                                textView.setText(menuItem.getTitle());
+                                setFragment(1);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_sent_perfil:
                                 menuItem.setChecked(true);
-                                textView.setText(menuItem.getTitle());
+                                setFragment(2);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_ajustes:
                                 menuItem.setChecked(true);
-                                textView.setText(menuItem.getTitle());
+                                setFragment(3);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_navigation_drawer_contacto:
                                 menuItem.setChecked(true);
-                                textView.setText(menuItem.getTitle());
+                                setFragment(4);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                         }
                         return true;
                     }
                 });
+    }
+
+    public void setFragment(int position) {
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        switch (position) {
+            case 0:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                InboxFragment inboxFragment = new InboxFragment();
+                fragmentTransaction.replace(R.id.fragment, inboxFragment);
+                fragmentTransaction.commit();
+                break;
+            case 1:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                StarredFragment starredFragment = new StarredFragment();
+                fragmentTransaction.replace(R.id.fragment, starredFragment);
+                fragmentTransaction.commit();
+                break;
+        }
     }
 }
