@@ -161,7 +161,6 @@ public class InicioFragment extends Fragment {
                     products = json.getJSONArray(TAG_PRODUCTS);
 
                     // looping through All Products
-                    //Log.i("ramiro", "produtos.length" + products.length());
                     for (int i = 0; i < products.length(); i++) {
                         JSONObject c = products.getJSONObject(i);
 
@@ -184,15 +183,6 @@ public class InicioFragment extends Fragment {
                             bitmap = BitmapFactory.decodeStream(conimagen.getInputStream());
                         }
                         imagen.add(bitmap);
-
-                        // creating new HashMap
-                        // HashMap map = new HashMap();
-
-                        // adding each child node to HashMap key => value
-                        // map.put(TAG_DESCRIPCION, descripcion);
-                        //map.put(TAG_NOMBRE, name);
-
-                        //listaUsuarios.add(map);
                     }
                 }
             } catch (JSONException e) {
@@ -212,8 +202,8 @@ public class InicioFragment extends Fragment {
             // dismiss the dialog after getting all products
             pDialog.dismiss();
             // updating UI from Background Thread
-//            runOnUiThread(new Runnable() {
-//                public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
                     /**
                      * Updating parsed JSON data into ListView
                      * */
@@ -227,6 +217,7 @@ public class InicioFragment extends Fragment {
                         public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
                             switch (posicion) {
                                 case 0:
+                                    //getActivity()-----------------v
                                     /*Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
                                     startActivity(ii);*/
                                     Toast.makeText(getActivity(), "Item 1", Toast.LENGTH_SHORT).show();
@@ -239,8 +230,8 @@ public class InicioFragment extends Fragment {
                             }
                         }
                     });
-//                }
-//            });
+                }
+            });
         }
     }
 }
