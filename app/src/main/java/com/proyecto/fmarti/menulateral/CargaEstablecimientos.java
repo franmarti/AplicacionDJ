@@ -4,6 +4,7 @@ package com.proyecto.fmarti.menulateral;
  * Created by fmarti on 07/03/2016.
  */
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -193,8 +194,8 @@ public class CargaEstablecimientos extends AppCompatActivity {
                         public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
                             switch (posicion) {
                                 case 0:
-                                    /*Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
-                                    startActivity(ii);*/
+                                    Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
+                                    startActivity(ii);
                                     Toast.makeText(getApplicationContext(), "Item 1", Toast.LENGTH_SHORT).show();
                                     break;
                                 case 1:

@@ -1,6 +1,7 @@
 package com.proyecto.fmarti.menulateral.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.proyecto.fmarti.menulateral.InfoEstablecimiento;
 import com.proyecto.fmarti.menulateral.JSONParser;
 import com.proyecto.fmarti.menulateral.ListViewAdapter;
 import com.proyecto.fmarti.menulateral.MainActivity;
@@ -99,9 +101,9 @@ public class InicioFragment extends Fragment {
                 public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
                     switch (posicion) {
                         case 0:
-                                    /*Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
-                                    startActivity(ii);*/
-                            Toast.makeText(getActivity(), "Item 1", Toast.LENGTH_SHORT).show();
+                            Intent ii = new Intent(getActivity(), InfoEstablecimiento.class);
+                            startActivity(ii);
+                            Toast.makeText(getActivity(), "Entrando al sitio...", Toast.LENGTH_SHORT).show();
                             break;
                         case 1:
                             Toast.makeText(getActivity(), "Item 2", Toast.LENGTH_SHORT).show();
@@ -217,10 +219,9 @@ public class InicioFragment extends Fragment {
                         public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
                             switch (posicion) {
                                 case 0:
-                                    //getActivity()-----------------v
-                                    /*Intent ii = new Intent(getApplicationContext(), InfoEstablecimiento.class);
-                                    startActivity(ii);*/
-                                    Toast.makeText(getActivity(), "Item 1", Toast.LENGTH_SHORT).show();
+                                    Intent ii = new Intent(getActivity(), InfoEstablecimiento.class);
+                                    startActivity(ii);
+                                    Toast.makeText(getActivity(), "Entrando al sitio...", Toast.LENGTH_SHORT).show();
                                     break;
                                 case 1:
                                     Toast.makeText(getActivity(), "Item 2", Toast.LENGTH_SHORT).show();
