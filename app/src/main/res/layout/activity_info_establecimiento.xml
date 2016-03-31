@@ -27,7 +27,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="360dp"
         android:background="@color/md_grey_800"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -43,8 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:background="@drawable/hendrix"
-                app:layout_collapseMode="pin"/>
+                android:background="@drawable/hendrix"/>
 
         <!--    <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
