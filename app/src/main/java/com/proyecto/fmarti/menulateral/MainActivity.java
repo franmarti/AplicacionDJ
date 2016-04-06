@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.proyecto.fmarti.menulateral.Fragments.InicioFragment;
+import com.proyecto.fmarti.menulateral.Fragments.TodosFragment;
 import com.proyecto.fmarti.menulateral.Fragments.BuscarFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -111,17 +111,18 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                InicioFragment inicioFragment = new InicioFragment();
-                fragmentTransaction.replace(R.id.fragment, inicioFragment);
+                BuscarFragment buscarFragment = new BuscarFragment();
+                fragmentTransaction.replace(R.id.fragment, buscarFragment);
                 fragmentTransaction.commit();
                 break;
             case 1:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                BuscarFragment buscarFragment = new BuscarFragment();
-                fragmentTransaction.replace(R.id.fragment, buscarFragment);
+                TodosFragment todosFragment = new TodosFragment();
+                fragmentTransaction.replace(R.id.fragment, todosFragment);
                 fragmentTransaction.commit();
                 break;
+
         }
     }
 }

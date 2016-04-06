@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Created by fmarti on 22/03/2016.
  */
-public class InicioFragment extends Fragment {
+public class TodosFragment extends Fragment {
     // Progress Dialog
     private ProgressDialog pDialog;
 
