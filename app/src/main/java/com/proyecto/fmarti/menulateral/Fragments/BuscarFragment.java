@@ -15,17 +15,17 @@ import com.proyecto.fmarti.menulateral.MainActivity;
 import com.proyecto.fmarti.menulateral.R;
 
 
-public class StarredFragment extends Fragment {
+public class BuscarFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_starred, container, false);
+        final View view = inflater.inflate(R.layout.fragment_buscar, container, false);
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Fragment Starred");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Buscar");
 
-        Button buttonChangeText = (Button) view.findViewById(R.id.buttonFragmentStarred);
+       /* Button buttonChangeText = (Button) view.findViewById(R.id.buttonFragmentStarred);
 
         final TextView textViewStarredFragment = (TextView) view.findViewById(R.id.textViewStarredFragment);
 
@@ -38,7 +38,7 @@ public class StarredFragment extends Fragment {
                 textViewStarredFragment.setTextColor(getResources().getColor(R.color.md_green_50));
 
             }
-        });
+        });*/
 
         return view;
     }

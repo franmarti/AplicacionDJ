@@ -12,9 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.proyecto.fmarti.menulateral.Fragments.InboxFragment;
 import com.proyecto.fmarti.menulateral.Fragments.InicioFragment;
-import com.proyecto.fmarti.menulateral.Fragments.StarredFragment;
+import com.proyecto.fmarti.menulateral.Fragments.BuscarFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -119,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                StarredFragment starredFragment = new StarredFragment();
-                fragmentTransaction.replace(R.id.fragment, starredFragment);
+                BuscarFragment buscarFragment = new BuscarFragment();
+                fragmentTransaction.replace(R.id.fragment, buscarFragment);
                 fragmentTransaction.commit();
                 break;
         }
