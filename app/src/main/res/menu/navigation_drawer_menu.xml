@@ -4,13 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:checked="true"
-            android:id="@+id/item_navigation_drawer_establecimientos"
-            android:icon="@drawable/ic_library_music_black_24dp"
-            android:title="@string/menu1" />
-        <item
             android:id="@+id/item_navigation_drawer_buscar"
             android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/menu1" />
+
+        <item
+            android:id="@+id/item_navigation_drawer_establecimientos"
+            android:icon="@drawable/ic_library_music_black_24dp"
             android:title="@string/menu2" />
+
         <item
             android:id="@+id/item_navigation_drawer_sent_perfil"
             android:icon="@drawable/ic_favorite_black_24dp"

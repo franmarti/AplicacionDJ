@@ -17,7 +17,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         android:id="@+id/linearLayout"
         android:background="@drawable/post_border_style"
         android:layout_below="@+id/toolbar"
@@ -39,14 +39,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Provincia"
-                android:id="@+id/tvProvincia"
+                android:text="Ciudad"
+                android:id="@+id/tvCiudad"
                 android:textStyle="bold" />
 
             <Spinner
                 android:layout_width="169dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/spProvincias"
+                android:id="@+id/spCiudades"
                 android:spinnerMode="dialog" />
 
         </LinearLayout>
@@ -86,14 +86,16 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gvEstablecimientos"
+    <ListView
+        android:id="@+id/lvEstablecimientos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="3dp"
         android:background="@drawable/post_border_style"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_below="@+id/svBusqueda"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:scrollingCache="true" />
+
+
 
 </RelativeLayout>

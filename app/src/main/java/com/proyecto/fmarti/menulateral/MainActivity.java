@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.item_navigation_drawer_establecimientos:
+                            case R.id.item_navigation_drawer_buscar:
                                 menuItem.setChecked(true);
                                 setFragment(0);
                                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, CargaEstablecimientos.class);
                                 startActivity(intent);*/
                                 return true;
-                            case R.id.item_navigation_drawer_buscar:
+                            case R.id.item_navigation_drawer_establecimientos:
                                 menuItem.setChecked(true);
                                 setFragment(1);
                                 drawerLayout.closeDrawer(GravityCompat.START);
