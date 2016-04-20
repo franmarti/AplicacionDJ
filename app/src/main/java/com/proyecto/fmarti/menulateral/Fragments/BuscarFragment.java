@@ -37,6 +37,7 @@ import com.proyecto.fmarti.menulateral.JSONParser;
 import com.proyecto.fmarti.menulateral.ListViewAdapter;
 import com.proyecto.fmarti.menulateral.MainActivity;
 import com.proyecto.fmarti.menulateral.R;
+import com.proyecto.fmarti.menulateral.TabActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,8 +121,10 @@ public class BuscarFragment extends Fragment {
 
         //Prueba GridView
         // Cargar los productos en el Background Thread
-        if(id.isEmpty()){
-            new LoadAllProducts().execute();
+
+        new LoadAllProducts().execute();
+/* if(id.isEmpty()){
+
         }
         else{
             ListView lista = (ListView) view.findViewById(R.id.lvEstablecimientos);
@@ -148,9 +151,7 @@ public class BuscarFragment extends Fragment {
                     }
                 }
             });
-        }
-
-
+        }*/
 
 
         return view;
@@ -254,7 +255,7 @@ public class BuscarFragment extends Fragment {
                         public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
                             switch (posicion) {
                                 case 0:
-                                    Intent ii = new Intent(getActivity(), InfoEstablecimiento.class);
+                                    Intent ii = new Intent(getActivity(), TabActivity.class);
                                     startActivity(ii);
                                     Toast.makeText(getActivity(), "Entrando al sitio...", Toast.LENGTH_SHORT).show();
                                     break;
