@@ -148,7 +148,7 @@
 
     <!-- Conjunto de Strings de Provincias -->
     <string-array name="Musica">
-        <item> Todos los tipos </item>
+        <item> Todos los estilos </item>
         <item> Rock </item>
         <item> Pop-Rock </item>
         <item> Electronica </item>
