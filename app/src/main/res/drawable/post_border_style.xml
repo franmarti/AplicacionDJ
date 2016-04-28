@@ -5,7 +5,9 @@
         <solid android:color="@color/md_grey_600" />
     </shape></item>
     <item><shape>
-        <gradient android:angle="270" android:endColor="@color/md_grey_500" android:startColor="@color/md_grey_400" />
+        <gradient android:angle="270"
+            android:endColor="@color/md_grey_500"
+            android:startColor="@color/md_grey_400" />
         <corners android:radius="1dp" />
     </shape></item>
 

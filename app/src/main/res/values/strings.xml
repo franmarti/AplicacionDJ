@@ -132,75 +132,31 @@
 
     <!-- Conjunto de Strings de Provincias -->
     <string-array name="Ciudades">
-        <item> Ciudad</item>
-        <item> A Coruna </item>
-        <item> Álava </item>
-        <item> Albacete </item>
+        <item> Todas las ciudades </item>
         <item> Alicante </item>
         <item> Almería </item>
-        <item> Asturias </item>
-        <item> Ávila </item>
-        <item> Badajoz </item>
-        <item> Baleares </item>
         <item> Barcelona </item>
-        <item> Burgos </item>
-        <item> Cáceres </item>
-        <item> Cádiz </item>
-        <item> Cantabria </item>
-        <item> Castellon </item>
-        <item> Ceuta </item>
-        <item> Ciudad Real </item>
-        <item> Córdoba </item>
         <item> Cuenca </item>
-        <item> Girona </item>
-        <item> Granada </item>
-        <item> Guadalajara </item>
-        <item> Guipuzcoa </item>
-        <item> Huelva </item>
-        <item> Huesca </item>
-        <item> Jaén </item>
-        <item> La Rioja </item>
-        <item> Las Palmas </item>
-        <item> León </item>
-        <item> Lleida </item>
         <item> Lugo </item>
         <item> Madrid </item>
         <item> Málaga </item>
         <item> Melilla </item>
         <item> Murcia </item>
-        <item> Navarra </item>
-        <item> Ourense </item>
-        <item> Palencia </item>
-        <item> Pontevedra </item>
-        <item> Salamanca </item>
-        <item> Segovia </item>
-        <item> Sevilla </item>
-        <item> Soria </item>
-        <item> Tarragona </item>
-        <item> Tenerife </item>
-        <item> Teruel </item>
-        <item> Toledo </item>
         <item> Valencia </item>
-        <item> Valladolid </item>
-        <item> Vizcaya </item>
-        <item> Zamora </item>
-        <item> Zaragoza </item>
+        <item> Yecla </item>
     </string-array>
 
     <!-- Conjunto de Strings de Provincias -->
     <string-array name="Musica">
-        <item> Música</item>
+        <item> Todos los tipos </item>
         <item> Rock </item>
-        <item> Blues </item>
+        <item> Pop-Rock </item>
         <item> Electronica </item>
-        <item> Hip-hop </item>
-        <item> Jazz </item>
         <item> Pop </item>
         <item> Rap </item>
         <item> Reggae </item>
         <item> Reguetón </item>
-        <item> Salsa </item>
-        <item> Samba </item>
+        <item> 40 Principales </item>
     </string-array>
     <string name="title_activity_prueba_tab">PruebaTab</string>
     <string name="title_activity_tab">TabActivity</string>

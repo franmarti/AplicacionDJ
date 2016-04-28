@@ -4,37 +4,27 @@ package com.proyecto.fmarti.menulateral.Fragments;
  * Created by fmarti on 10/03/2016.
  */
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.proyecto.fmarti.menulateral.InfoEstablecimiento;
 import com.proyecto.fmarti.menulateral.JSONParser;
 import com.proyecto.fmarti.menulateral.ListViewAdapter;
+import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.MainActivity;
 import com.proyecto.fmarti.menulateral.R;
 import com.proyecto.fmarti.menulateral.TabActivity;
@@ -48,11 +38,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
-public class BuscarFragment extends Fragment {
+public class BuscarFragment extends Fragment implements SearchView.OnQueryTextListener{
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -60,34 +50,38 @@ public class BuscarFragment extends Fragment {
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
-    ArrayList<HashMap<String, String>> listaUsuarios;
-
-
     // url to get all products list
     private static String url_all_establecimientos = "http://projectinf.esy.es/www/getAllEstablecimientos.php";
+    private static String url_por_tipos = "http://projectinf.esy.es/www/getEstPorTipo.php$tipo=";
     private static String URL_IMAGENES = "http://projectinf.esy.es/imagenes/";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_PRODUCTS = "establecimientos";
+    private static final String TAG_ESTABLECIMIENTOS = "establecimientos";
     private static final String TAG_ID = "id";
     private static final String TAG_NOMBRE = "nombre";
-    private static final String TAG_MUSICA = "musica";
+    private static final String TAG_TIPO_MUSICA = "tipoMusica";
     private static final String TAG_DESCRIPCION = "descripcion";
+    private static final String TAG_CIUDAD = "ciudad";
+    private static final String TAG_DIRECCION = "direccion";
     private static final String TAG_IMAGEN = "rutaimagen";
+
 
     // products JSONArray
     JSONArray products = null;
 
     //variables
     ListViewAdapter adapterList;
-    ArrayList<String> nombre = new ArrayList<String>();
-    ArrayList<String> id = new ArrayList<String>();
-    ArrayList<String> musica = new ArrayList<String>();
-    ArrayList<String> descripcion = new ArrayList<String>();
-    ArrayList<Bitmap> imagen = new ArrayList<Bitmap>();
+
+    ArrayList<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
+    ArrayList<Establecimiento> estAuxTipo = new ArrayList<Establecimiento>();
+    ArrayList<Establecimiento> estAuxCiudad = new ArrayList<Establecimiento>();
 
     View view;
+    SearchView searchView;
+    ListView lista;
+    Spinner spMusica, spCiudades;
+    android.widget.Filter filter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,65 +94,65 @@ public class BuscarFragment extends Fragment {
 
         ArrayAdapter<CharSequence> adapter;
 
-        Spinner spCiudades = (Spinner) view.findViewById(R.id.spCiudades);
-        Spinner spMusica = (Spinner) view.findViewById(R.id.spMusica);
+        spCiudades = (Spinner) view.findViewById(R.id.spCiudades);
+        spMusica = (Spinner) view.findViewById(R.id.spMusica);
 
-        SearchView searchView = (SearchView) view.findViewById(R.id.svBusqueda);/*
-        searchView.setIconifiedByDefault(false);*/
+        searchView = (SearchView) view.findViewById(R.id.svBusqueda);
 
         //Asignas el origen de datos desde los recursos
-        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Ciudades,
-                android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Ciudades, R.layout.spinner_personalizado);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCiudades.setAdapter(adapter);
 
         adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Musica,
-                android.R.layout.simple_spinner_item);
+                R.layout.spinner_personalizado);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spMusica.setAdapter(adapter);
 
-        //Prueba GridView
+
+
         // Cargar los productos en el Background Thread
+        ocultarTeclado();
 
-        new LoadAllProducts().execute();
-/* if(id.isEmpty()){
-
-        }
-        else{
-            ListView lista = (ListView) view.findViewById(R.id.lvEstablecimientos);
-            adapterList = new ListViewAdapter(getActivity(), nombre, id, descripcion, imagen);
-            lista.setAdapter(adapterList);
-
-            getActivity().getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
-                    switch (posicion) {
-                        case 0:
-                            Intent ii = new Intent(getActivity(), InfoEstablecimiento.class);
-                            startActivity(ii);
-                            Toast.makeText(getActivity(), "Entrando al sitio...", Toast.LENGTH_SHORT).show();
-                            break;
-                        case 1:
-                            Toast.makeText(getActivity(), "Item 2", Toast.LENGTH_SHORT).show();
-                            break;
-                        default:
-                            Toast.makeText(getActivity(), "Item 3", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }*/
-
-
+        new CargaTodosEstablecimientos().execute();
         return view;
     }
 
+    private void setupSearchView()
+    {
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(true);
+    }
 
-    class LoadAllProducts extends AsyncTask<String, String, String> {
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        filter.filter(newText);
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
+/*    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }*/
+
+
+    class CargaTodosEstablecimientos extends AsyncTask<String, String, String> {
 
         /**
          * Antes de empezar el background thread Show Progress Dialog
@@ -179,6 +173,7 @@ public class BuscarFragment extends Fragment {
         protected String doInBackground(String... args) {
             // Building Parameters
             List params = new ArrayList();
+
             // getting JSON string from URL
             JSONObject json = jParser.makeHttpRequest(url_all_establecimientos, "GET", params);
             Bitmap bitmap;
@@ -192,21 +187,22 @@ public class BuscarFragment extends Fragment {
                 if (success == 1) {
                     // products found
                     // Getting Array of Products
-                    products = json.getJSONArray(TAG_PRODUCTS);
+                    products = json.getJSONArray(TAG_ESTABLECIMIENTOS);
 
                     // looping through All Products
                     for (int i = 0; i < products.length(); i++) {
                         JSONObject c = products.getJSONObject(i);
 
                         // Storing each json item in variable
-                        String description = c.getString(TAG_DESCRIPCION);
-                        String name = c.getString(TAG_NOMBRE);
-                        String idJson = c.getString(TAG_ID);
+                        String idEst = c.getString(TAG_ID);
+                        String nombre = c.getString(TAG_NOMBRE);
+                        String tpMusica = c.getString(TAG_TIPO_MUSICA);
+                        String descripcion = c.getString(TAG_DESCRIPCION);
+                        String ciudad = c.getString(TAG_CIUDAD);
+                        String direccion = c.getString(TAG_DIRECCION);
                         String rutaimagen = c.getString(TAG_IMAGEN);
 
-                        descripcion.add(description);
-                        nombre.add(name);
-                        id.add(idJson);
+                        //Image to Bitmap
                         if(rutaimagen.equals("noimage")){
                             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
                         }
@@ -216,7 +212,9 @@ public class BuscarFragment extends Fragment {
                             conimagen.connect();
                             bitmap = BitmapFactory.decodeStream(conimagen.getInputStream());
                         }
-                        imagen.add(bitmap);
+
+                        establecimientos.add(new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, bitmap));
+
                     }
                 }
             } catch (JSONException e) {
@@ -242,13 +240,99 @@ public class BuscarFragment extends Fragment {
                      * Updating parsed JSON data into ListView
                      * */
 
-                    ListView lista = (ListView) view.findViewById(R.id.lvEstablecimientos);
-                    adapterList = new ListViewAdapter(getActivity(), nombre, id, descripcion, imagen);
+                    lista = (ListView) view.findViewById(R.id.lvEstablecimientos);
+                    adapterList = new ListViewAdapter(getActivity(), establecimientos);
                     lista.setAdapter(adapterList);
 
-                    //Ocultar teclado
-                    getActivity().getWindow().setSoftInputMode(
-                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    filter = adapterList.getFilter();
+                    setupSearchView();
+
+                    spMusica.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                            String tipo = spMusica.getSelectedItem().toString().toLowerCase().trim();
+                            if (tipo.equals("Todos los tipos".toLowerCase())) {
+                                if(estAuxCiudad.isEmpty())
+                                    adapterList = new ListViewAdapter(getActivity(), establecimientos);
+                                else
+                                    adapterList = new ListViewAdapter(getActivity(), estAuxCiudad);
+                                estAuxTipo.clear();
+                                lista.setAdapter(adapterList);
+                                filter = adapterList.getFilter();
+                                setupSearchView();
+                            } else {
+                                estAuxTipo = new ArrayList<Establecimiento>();
+                                Iterator<Establecimiento> iterator;
+                                if(estAuxCiudad.isEmpty())
+                                    iterator = establecimientos.iterator();
+                                else
+                                    iterator = estAuxCiudad.iterator();
+
+                                while (iterator.hasNext()) {
+                                    Establecimiento log = iterator.next();
+                                    if (tipo.equals(log.getTipoMusica().toLowerCase().trim())) {
+                                        estAuxTipo.add(log);
+                                    }
+                                }
+                                adapterList = new ListViewAdapter(getActivity(), estAuxTipo);
+                                lista.setAdapter(adapterList);
+
+                                filter = adapterList.getFilter();
+                                setupSearchView();
+                            }
+                            ocultarTeclado();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+
+                    spCiudades.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                            String tipo = spCiudades.getSelectedItem().toString().toLowerCase().trim();
+                            spMusica.setSelection(0);
+                            estAuxTipo.clear();
+                            //spMusica.notify();
+                            if (tipo.equals("Todas las ciudades".toLowerCase())) {
+                                estAuxCiudad.clear();
+                                adapterList = new ListViewAdapter(getActivity(), establecimientos);
+                                lista.setAdapter(adapterList);
+                                filter = adapterList.getFilter();
+                                setupSearchView();
+                            } else {
+
+                                estAuxCiudad = new ArrayList<Establecimiento>();
+                                Iterator<Establecimiento> iterator = establecimientos.iterator();
+                                while (iterator.hasNext()) {
+                                    Establecimiento log = iterator.next();
+                                    if (tipo.equals(log.getCiudad().toLowerCase().trim())) {
+                                        estAuxCiudad.add(log);
+                                    }
+                                }
+                                adapterList = new ListViewAdapter(getActivity(), estAuxCiudad);
+                                lista.setAdapter(adapterList);
+
+                                filter = adapterList.getFilter();
+                                setupSearchView();
+                            }
+                            ocultarTeclado();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+
+                    ocultarTeclado();
+
 
                     lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -257,7 +341,6 @@ public class BuscarFragment extends Fragment {
                                 case 0:
                                     Intent ii = new Intent(getActivity(), TabActivity.class);
                                     startActivity(ii);
-                                    Toast.makeText(getActivity(), "Entrando al sitio...", Toast.LENGTH_SHORT).show();
                                     break;
                                 case 1:
                                     Toast.makeText(getActivity(), "Item 2", Toast.LENGTH_SHORT).show();
@@ -272,5 +355,9 @@ public class BuscarFragment extends Fragment {
         }
     }
 
-
+    public void ocultarTeclado(){
+        //Ocultar teclado
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
 }
