@@ -14,7 +14,9 @@ public class Establecimiento {
     private String direccion;
 
 
-
+    public Establecimiento (){
+        //Constructor por defecto
+    }
     private Bitmap imagen;
 
     public Establecimiento(int id, String nombre, String tipoMusica, String descripcion, String ciudad, String direccion, Bitmap imagen) {

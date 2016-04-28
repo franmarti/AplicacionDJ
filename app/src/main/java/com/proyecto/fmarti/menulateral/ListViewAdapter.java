@@ -51,8 +51,8 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     public class EstHolder
     {
         ImageView imgImg;
-        TextView txtDescripcion;
-        TextView txtNombre;
+        TextView tvEstilo;
+        TextView tvNombre;
     }
 
     public Filter getFilter() {
@@ -116,8 +116,8 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
             convertView=LayoutInflater.from(context).inflate(R.layout.list_view_personalizado, parent, false);
             holder=new EstHolder();
             holder.imgImg = (ImageView) convertView.findViewById(R.id.imgTV);
-            holder.txtNombre=(TextView) convertView.findViewById(R.id.tvNombre);
-            holder.txtDescripcion=(TextView) convertView.findViewById(R.id.tvDescripcion);
+            holder.tvNombre=(TextView) convertView.findViewById(R.id.tvNombre);
+            holder.tvEstilo=(TextView) convertView.findViewById(R.id.tvEstilo);
             convertView.setTag(holder);
         }
         else
@@ -126,8 +126,8 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         }
 
         holder.imgImg.setImageBitmap(estArrayList.get(position).getImagen());
-        holder.txtNombre.setText(estArrayList.get(position).getNombre());
-        holder.txtDescripcion.setText(String.valueOf(estArrayList.get(position).getDescripcion()));
+        holder.tvNombre.setText(estArrayList.get(position).getNombre());
+        holder.tvEstilo.setText(estArrayList.get(position).getTipoMusica());
 
         return convertView;
     }

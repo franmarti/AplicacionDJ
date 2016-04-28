@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -42,7 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class BuscarFragment extends Fragment implements SearchView.OnQueryTextListener{
+public class BuscarFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -82,6 +85,9 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
     ListView lista;
     Spinner spMusica, spCiudades;
     android.widget.Filter filter;
+    private SwipeRefreshLayout swipeContainer;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,6 +104,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         spMusica = (Spinner) view.findViewById(R.id.spMusica);
 
         searchView = (SearchView) view.findViewById(R.id.svBusqueda);
+        searchView.clearFocus();
 
         //Asignas el origen de datos desde los recursos
         adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Ciudades, R.layout.spinner_personalizado);
@@ -111,20 +118,43 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spMusica.setAdapter(adapter);
 
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchTimelineAsync(0);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
 
         // Cargar los productos en el Background Thread
-        ocultarTeclado();
-
         new CargaTodosEstablecimientos().execute();
+       // ocultarTeclado();
         return view;
+
     }
+
+    public void fetchTimelineAsync(int page) {
+        establecimientos.clear();
+        new CargaTodosEstablecimientos().execute();
+       // ocultarTeclado();
+    }
+
 
     private void setupSearchView()
     {
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
+        searchView.clearFocus();
     }
 
     @Override
@@ -142,14 +172,6 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         return false;
     }
 
-/*    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }*/
 
 
     class CargaTodosEstablecimientos extends AsyncTask<String, String, String> {
@@ -160,70 +182,14 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(getActivity());
-            pDialog.setMessage("Cargando establecimientos. Por favor espere...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+            cargando();
         }
 
         /**
          * obteniendo todos los productos
          * */
         protected String doInBackground(String... args) {
-            // Building Parameters
-            List params = new ArrayList();
-
-            // getting JSON string from URL
-            JSONObject json = jParser.makeHttpRequest(url_all_establecimientos, "GET", params);
-            Bitmap bitmap;
-            // Check your log cat for JSON reponse
-            Log.d("All Products: ", json.toString());
-
-            try {
-                // Checking for SUCCESS TAG
-                int success = json.getInt(TAG_SUCCESS);
-
-                if (success == 1) {
-                    // products found
-                    // Getting Array of Products
-                    products = json.getJSONArray(TAG_ESTABLECIMIENTOS);
-
-                    // looping through All Products
-                    for (int i = 0; i < products.length(); i++) {
-                        JSONObject c = products.getJSONObject(i);
-
-                        // Storing each json item in variable
-                        String idEst = c.getString(TAG_ID);
-                        String nombre = c.getString(TAG_NOMBRE);
-                        String tpMusica = c.getString(TAG_TIPO_MUSICA);
-                        String descripcion = c.getString(TAG_DESCRIPCION);
-                        String ciudad = c.getString(TAG_CIUDAD);
-                        String direccion = c.getString(TAG_DIRECCION);
-                        String rutaimagen = c.getString(TAG_IMAGEN);
-
-                        //Image to Bitmap
-                        if(rutaimagen.equals("noimage")){
-                            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
-                        }
-                        else{
-                            URL urlImagen = new URL(URL_IMAGENES + rutaimagen);
-                            HttpURLConnection conimagen = (HttpURLConnection) urlImagen.openConnection();
-                            conimagen.connect();
-                            bitmap = BitmapFactory.decodeStream(conimagen.getInputStream());
-                        }
-
-                        establecimientos.add(new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, bitmap));
-
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            cargaDatos();
             return null;
         }
 
@@ -247,13 +213,14 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                     filter = adapterList.getFilter();
                     setupSearchView();
 
+                    //Listeners
                     spMusica.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                         @Override
                         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                             String tipo = spMusica.getSelectedItem().toString().toLowerCase().trim();
-                            if (tipo.equals("Todos los tipos".toLowerCase())) {
-                                if(estAuxCiudad.isEmpty())
+                            if (tipo.equals("Todos los estilos".toLowerCase())) {
+                                if (estAuxCiudad.isEmpty())
                                     adapterList = new ListViewAdapter(getActivity(), establecimientos);
                                 else
                                     adapterList = new ListViewAdapter(getActivity(), estAuxCiudad);
@@ -264,7 +231,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                             } else {
                                 estAuxTipo = new ArrayList<Establecimiento>();
                                 Iterator<Establecimiento> iterator;
-                                if(estAuxCiudad.isEmpty())
+                                if (estAuxCiudad.isEmpty())
                                     iterator = establecimientos.iterator();
                                 else
                                     iterator = estAuxCiudad.iterator();
@@ -281,7 +248,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                                 filter = adapterList.getFilter();
                                 setupSearchView();
                             }
-                            ocultarTeclado();
+                           // ocultarTeclado();
                         }
 
                         @Override
@@ -321,7 +288,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                                 filter = adapterList.getFilter();
                                 setupSearchView();
                             }
-                            ocultarTeclado();
+                            // ocultarTeclado();
                         }
 
                         @Override
@@ -331,28 +298,97 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                         }
                     });
 
-                    ocultarTeclado();
-
-
+                    //Paso de Establecimiento a la clase TabActivity
                     lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
-                            switch (posicion) {
-                                case 0:
-                                    Intent ii = new Intent(getActivity(), TabActivity.class);
-                                    startActivity(ii);
-                                    break;
-                                case 1:
-                                    Toast.makeText(getActivity(), "Item 2", Toast.LENGTH_SHORT).show();
-                                    break;
-                                default:
-                                    Toast.makeText(getActivity(), "Item 3", Toast.LENGTH_SHORT).show();
-                            }
+                            Establecimiento est = new Establecimiento();
+                            if (!estAuxTipo.isEmpty())
+                                est = estAuxTipo.get(posicion);
+                            else if (estAuxTipo.isEmpty() && !estAuxCiudad.isEmpty())
+                                est = estAuxCiudad.get(posicion);
+                            else if (estAuxTipo.isEmpty() && estAuxCiudad.isEmpty())
+                                est = establecimientos.get(posicion);
+
+                            Intent intent = new Intent(getActivity(), TabActivity.class);
+                            intent.putExtra(TAG_ID, est.getId());
+                            intent.putExtra(TAG_NOMBRE, est.getNombre());
+                            intent.putExtra(TAG_TIPO_MUSICA, est.getTipoMusica());
+                            intent.putExtra(TAG_DESCRIPCION, est.getDescripcion());
+                            intent.putExtra(TAG_CIUDAD, est.getCiudad());
+                            intent.putExtra(TAG_DIRECCION, est.getDireccion());
+                            //intent.putExtra(TAG_IMAGEN, establecimientos.get(posicion).getImagen());
+                            startActivity(intent);
+                            Toast.makeText(getActivity(), est.getNombre(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             });
         }
+    }
+
+    public void cargaDatos(){
+        List params = new ArrayList();
+
+
+        // getting JSON string from URL
+        JSONObject json = jParser.makeHttpRequest(url_all_establecimientos, "GET", params);
+        Bitmap bitmap;
+        // Check your log cat for JSON reponse
+        Log.d("All Products: ", json.toString());
+
+        try {
+            // Checking for SUCCESS TAG
+            int success = json.getInt(TAG_SUCCESS);
+
+            if (success == 1) {
+                // products found
+                // Getting Array of Products
+                products = json.getJSONArray(TAG_ESTABLECIMIENTOS);
+
+                // looping through All Products
+                for (int i = 0; i < products.length(); i++) {
+                    JSONObject c = products.getJSONObject(i);
+
+                    // Storing each json item in variable
+                    String idEst = c.getString(TAG_ID);
+                    String nombre = c.getString(TAG_NOMBRE);
+                    String tpMusica = c.getString(TAG_TIPO_MUSICA);
+                    String descripcion = c.getString(TAG_DESCRIPCION);
+                    String ciudad = c.getString(TAG_CIUDAD);
+                    String direccion = c.getString(TAG_DIRECCION);
+                    String rutaimagen = c.getString(TAG_IMAGEN);
+
+                    //Image to Bitmap
+                    if(rutaimagen.equals("noimage")){
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
+                    }
+                    else{
+                        URL urlImagen = new URL(URL_IMAGENES + rutaimagen);
+                        HttpURLConnection conimagen = (HttpURLConnection) urlImagen.openConnection();
+                        conimagen.connect();
+                        bitmap = BitmapFactory.decodeStream(conimagen.getInputStream());
+                    }
+
+                    establecimientos.add(new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, bitmap));
+
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargando(){
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Cargando establecimientos. Por favor espere...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
     public void ocultarTeclado(){

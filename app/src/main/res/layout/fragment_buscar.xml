@@ -74,15 +74,28 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 
-    <ListView
-        android:id="@+id/lvEstablecimientos"
-        android:layout_width="wrap_content"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="3dp"
-        android:background="@drawable/post_border_style"
-        android:layout_below="@+id/svBusqueda"
-        android:layout_marginTop="5dp"
-        android:scrollingCache="true" />
+        android:layout_below="@+id/svBusqueda">
+
+        <ListView
+            android:id="@+id/lvEstablecimientos"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:dividerHeight="3dp"
+            android:background="@drawable/post_border_style"
+            android:layout_below="@+id/swipeContainer"
+            android:layout_marginTop="5dp"
+            android:scrollingCache="true"
+            android:drawSelectorOnTop="false" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
 
 
 

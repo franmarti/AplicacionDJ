@@ -14,9 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.proyecto.fmarti.menulateral.FragmentsActivity.InfoEstFragment;
-import com.proyecto.fmarti.menulateral.FragmentsActivity.ListaFragment;
-import com.proyecto.fmarti.menulateral.FragmentsActivity.SonandoFragment;
+import com.proyecto.fmarti.menulateral.FragmentsActivityTab.InfoEstFragment;
+import com.proyecto.fmarti.menulateral.FragmentsActivityTab.ListaFragment;
+import com.proyecto.fmarti.menulateral.FragmentsActivityTab.SonandoFragment;
 
 public class TabActivity extends AppCompatActivity {
 

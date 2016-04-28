@@ -40,7 +40,8 @@
                         android:layout_height="80dp"
                         android:id="@+id/imgTV"
                         android:src="@drawable/header"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:clickable="true" />
 
                 </LinearLayout>
 
@@ -51,22 +52,45 @@
                     android:layout_weight="0.7">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Plaza 25 de Mayo"
                         android:id="@+id/tvNombre"
                         android:layout_marginLeft="5dp"
-                        android:textColor="#ff000000" />
+                        android:textColor="#ff000000"
+                        android:textAlignment="center"
+                        android:singleLine="false"
+                        android:gravity="left|bottom" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Es la plaza principal de la ciudad de San Juan y es donde se encuentra el kilómetro 0 de la provincia."
-                        android:id="@+id/tvDescripcion"
-                        android:layout_marginLeft="5dp"
-                        android:textColor="#ff868686" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Estilo"
+                            android:id="@+id/tvEstilo"
+                            android:layout_marginLeft="15dp" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/imgFavorito"
+                                android:layout_gravity="center|right"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_favorite_black_24dp"
+                                android:clickable="true" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
