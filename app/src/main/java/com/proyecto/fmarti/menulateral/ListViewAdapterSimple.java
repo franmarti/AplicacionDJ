@@ -13,53 +13,68 @@ import android.content.Context;
         import android.widget.ImageView;
         import android.widget.TextView;
 
+import com.proyecto.fmarti.menulateral.Logica.Cancion;
+import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
+
+import java.util.ArrayList;
+
 public class ListViewAdapterSimple extends BaseAdapter {
     // Declare Variables
     Context context;
-    String[] titulos;
-    int[] imagenes;
-    LayoutInflater inflater;
+    String[] titulos, autores;
 
-    public ListViewAdapterSimple(Context context, String[] titulos) {
+    public ArrayList<Cancion> cancionArrayList;
+
+    public ListViewAdapterSimple(Context context, String[] autores, String[] titulos) {
+        super();
         this.context = context;
+        this.autores = autores;
         this.titulos = titulos;
+    }
+
+    public ListViewAdapterSimple(Context context,ArrayList<Cancion> canciones) {
+        super();
+        this.context = context;
+        this.cancionArrayList = canciones;
+    }
+
+    public class EstHolder {
+        TextView autor;
+        TextView titulo;
     }
 
     @Override
     public int getCount() {
-        return titulos.length;
+        return cancionArrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return cancionArrayList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // Declare Variables
-        TextView txtTitle;
-        /*ImageView imgImgLike;
-        ImageView imgDislike;*/
+        EstHolder holder;
 
-        //http://developer.android.com/intl/es/reference/android/view/LayoutInflater.html
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_view_canciones, parent, false);
+            holder = new EstHolder();
+            holder.autor = (TextView) convertView.findViewById(R.id.tvAutor);
+            holder.titulo = (TextView) convertView.findViewById(R.id.tvTitulo);
+            convertView.setTag(holder);
+        } else {
+            holder = (EstHolder) convertView.getTag();
+        }
 
-        View itemView = inflater.inflate(R.layout.list_view_canciones, parent, false);
+        holder.autor.setText(cancionArrayList.get(position).getAutor());
+        holder.titulo.setText(cancionArrayList.get(position).getTitulo());
 
-        // Locate the TextViews in listview_item.xml
-        txtTitle = (TextView) itemView.findViewById(R.id.tvTituloElemento);
-        /*imgImgLike = (ImageView) itemView.findViewById(R.id.ivLike);
-        imgDislike = (ImageView) itemView.findViewById(R.id.ivDislike);*/
-
-        // Capture position and set to the TextViews
-        txtTitle.setText(titulos[position]);
-
-        return itemView;
+        return convertView;
     }
 }

@@ -22,7 +22,6 @@ import java.util.Locale;
 public class ListViewAdapter extends BaseAdapter implements Filterable {
     //Variables
     Context context;
-    LayoutInflater inflater;
     ArrayList<String> nombre;
     ArrayList<String> id;
     ArrayList<String> descripcion;

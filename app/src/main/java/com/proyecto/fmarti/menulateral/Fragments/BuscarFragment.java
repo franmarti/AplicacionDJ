@@ -55,7 +55,6 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
 
     // url to get all products list
     private static String url_all_establecimientos = "http://projectinf.esy.es/www/getAllEstablecimientos.php";
-    private static String url_por_tipos = "http://projectinf.esy.es/www/getEstPorTipo.php$tipo=";
     private static String URL_IMAGENES = "http://projectinf.esy.es/imagenes/";
 
     // JSON Node names
@@ -311,13 +310,13 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                                 est = establecimientos.get(posicion);
 
                             Intent intent = new Intent(getActivity(), TabActivity.class);
-                            intent.putExtra(TAG_ID, est.getId());
+                            intent.putExtra(TAG_ID, String.valueOf(est.getId()));
                             intent.putExtra(TAG_NOMBRE, est.getNombre());
                             intent.putExtra(TAG_TIPO_MUSICA, est.getTipoMusica());
                             intent.putExtra(TAG_DESCRIPCION, est.getDescripcion());
                             intent.putExtra(TAG_CIUDAD, est.getCiudad());
                             intent.putExtra(TAG_DIRECCION, est.getDireccion());
-                            //intent.putExtra(TAG_IMAGEN, establecimientos.get(posicion).getImagen());
+                            //intent.putExtra(TAG_IMAGEN,est.getImagen());
                             startActivity(intent);
                             Toast.makeText(getActivity(), est.getNombre(), Toast.LENGTH_SHORT).show();
                         }

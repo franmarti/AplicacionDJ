@@ -1,5 +1,7 @@
 package com.proyecto.fmarti.menulateral;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +18,8 @@ import android.view.View;
 
 import com.proyecto.fmarti.menulateral.FragmentsActivityTab.InfoEstFragment;
 import com.proyecto.fmarti.menulateral.FragmentsActivityTab.ListaFragment;
-import com.proyecto.fmarti.menulateral.FragmentsActivityTab.SonandoFragment;
+import com.proyecto.fmarti.menulateral.FragmentsActivityTab.PeticionesFragment;
+import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -35,6 +38,17 @@ public class TabActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    //Establecimientos
+    private static final String TAG_ID = "id";
+    private static final String TAG_NOMBRE = "nombre";
+    private static final String TAG_TIPO_MUSICA = "tipoMusica";
+    private static final String TAG_DESCRIPCION = "descripcion";
+    private static final String TAG_CIUDAD = "ciudad";
+    private static final String TAG_DIRECCION = "direccion";
+    private static final String TAG_IMAGEN = "rutaimagen";
+
+    Bundle bundle = new Bundle();
+
 
 
     @Override
@@ -45,8 +59,26 @@ public class TabActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Sitio");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //Recuperamos el establecimiento seleccionado
+
+        String idEst = getIntent().getStringExtra(TAG_ID);
+        String nombre = getIntent().getStringExtra(TAG_NOMBRE);
+        String tpMusica = getIntent().getStringExtra(TAG_TIPO_MUSICA);
+        String descripcion = getIntent().getStringExtra(TAG_DESCRIPCION);
+        String ciudad = getIntent().getStringExtra(TAG_CIUDAD);
+        String direccion = getIntent().getStringExtra(TAG_DIRECCION);
+
+        getSupportActionBar().setTitle(nombre);
+
+        bundle.putString(TAG_ID, idEst);
+        bundle.putString(TAG_NOMBRE, nombre);
+        bundle.putString(TAG_TIPO_MUSICA, tpMusica);
+        bundle.putString(TAG_DESCRIPCION, descripcion);
+        bundle.putString(TAG_CIUDAD, ciudad);
+        bundle.putString(TAG_DIRECCION, direccion);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -54,7 +86,6 @@ public class TabActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +143,7 @@ public class TabActivity extends AppCompatActivity {
                 case 0:
                     return InfoEstFragment.newInstance(position + 1);
                 case 1:
-                    return SonandoFragment.newInstance(position + 1);
+                    return PeticionesFragment.newInstance(position + 1, bundle);
                 case 2:
                     return ListaFragment.newInstance(position + 1);
 

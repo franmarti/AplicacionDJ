@@ -1,6 +1,7 @@
 package com.proyecto.fmarti.menulateral.FragmentsActivityTab;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import com.proyecto.fmarti.menulateral.R;
  */
 public class ListaFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_SECTION_NUMBER = "3";
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -27,10 +28,20 @@ public class ListaFragment extends Fragment {
         return fragment;
     }
 
+    public static ListaFragment newInstance(Bundle arguments){
+        ListaFragment f = new ListaFragment();
+        if(arguments != null){
+            f.setArguments(arguments);
+        }
+        return f;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab_listas, container, false);
+
+
 
         //((TabActivity) getActivity()).getSupportActionBar().setTitle("Listas");
         /*TextView textView = (TextView) rootView.findViewById(R.id.section_label);
