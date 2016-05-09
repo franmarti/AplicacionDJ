@@ -1,58 +1,35 @@
 package com.proyecto.fmarti.menulateral.FragmentsActivityTab;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.proyecto.fmarti.menulateral.JSONParser;
-import com.proyecto.fmarti.menulateral.ListViewAdapter;
 import com.proyecto.fmarti.menulateral.ListViewAdapterSimple;
 import com.proyecto.fmarti.menulateral.Logica.Cancion;
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.ParserJSON;
 import com.proyecto.fmarti.menulateral.R;
-import com.proyecto.fmarti.menulateral.TabActivity;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by fmarti on 07/04/2016.
  */
-
-
-public class PeticionesFragment extends Fragment {
+public class ListaCancionesFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String ARG_SECTION_NUMBER = "2";
     ListViewAdapterSimple adapterList;
@@ -63,10 +40,9 @@ public class PeticionesFragment extends Fragment {
 
     // Progress Dialog
     private ProgressDialog pDialog;
-    private TextView tvVacio;
 
     // url to get all products list
-    private static String url_canciones = "http://projectinf.esy.es/www/getCancionesPedidas.php";
+    private static String url_canciones = "http://projectinf.esy.es/www/getAllCanciones.php";
 
     // JSON Node names Canciones
     private static final String TAG_SUCCESS = "success";
@@ -89,10 +65,15 @@ public class PeticionesFragment extends Fragment {
     private static final String ARG_ESTABLECIMIENTO = "establecimiento";
 
     private View rootView;
+    private Establecimiento establecimiento;
 
 
     // products JSONArray
     private JSONArray products = null;
+    private android.widget.Filter filter;
+    private SwipeRefreshLayout swipeContainer;
+    private SearchView searchView;
+    private TextView tvVacio;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -108,8 +89,8 @@ public class PeticionesFragment extends Fragment {
         return fragment;
     }*/
 
-    public static PeticionesFragment newInstance(Bundle bundle) {
-        PeticionesFragment fragment = new PeticionesFragment();
+    public static ListaCancionesFragment newInstance(Bundle bundle) {
+        ListaCancionesFragment fragment = new ListaCancionesFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -117,9 +98,11 @@ public class PeticionesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_tab_peticiones, container, false);
-            tvVacio = (TextView) rootView.findViewById(R.id.tvOcultoPeticiones);
+        //rootView = inflater.inflate(R.layout.fragment_tab_peticiones, container, false);
+
+        if (rootView == null){
+            rootView = inflater.inflate(R.layout.fragment_tab_canciones, container, false);
+            tvVacio = (TextView) rootView.findViewById(R.id.tvOcultoCanciones);
 
             //Recuperamos el establecimiento seleccionado
             String idEst = getArguments().getString(TAG_ID);
@@ -130,17 +113,66 @@ public class PeticionesFragment extends Fragment {
             String direccion = getArguments().getString(TAG_DIRECCION);
             //Bitmap bitmap = (Bitmap) getArguments().getParcelable(TAG_IMAGEN);
 
-            Establecimiento establecimiento = new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, null);
-            new CargaCancionesPedidas().execute(String.valueOf(establecimiento.getId()));
-            // Initialise your layout here
+            establecimiento = new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, null);
 
-       }
+            searchView = (SearchView) rootView.findViewById(R.id.svBusquedaAutor);
+            searchView.clearFocus();
 
+            swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainerCanciones);
 
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    fetchTimelineAsync();
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+            // Configure the refreshing colors
+            swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
+            new CargaCanciones().execute(String.valueOf(establecimiento.getId()));
+        }
+
+        //((TabActivity) getActivity()).getSupportActionBar().setTitle("Sonando");
+        /*TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));*/
         return rootView;
     }
 
-    class CargaCancionesPedidas extends AsyncTask<String, String, String> {
+    public void fetchTimelineAsync() {
+        canciones.clear();
+        new CargaCanciones().execute(String.valueOf(establecimiento.getId()));
+        // ocultarTeclado();
+    }
+
+
+    private void setupSearchView()
+    {
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(true);
+        searchView.clearFocus();
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        filter.filter(newText);
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
+    class CargaCanciones extends AsyncTask<String, String, String> {
 
         /**
          * Antes de empezar el background thread Show Progress Dialog
@@ -158,7 +190,6 @@ public class PeticionesFragment extends Fragment {
 
             HashMap<String, String> params = new HashMap<>();
             params.put("idEst", args[0]);
-            params.put("pedida", "si");
             // getting JSON string from URL
             // Check your log cat for JSON reponse
 
@@ -166,27 +197,27 @@ public class PeticionesFragment extends Fragment {
             try {
 
                 // Checking for SUCCESS TAG
-               // int success = json.getInt(TAG_SUCCESS);
+                // int success = json.getInt(TAG_SUCCESS);
 
                 //if (success == 1) {
-                    // products found
-                    // Getting Array of Products
-                    products = json.getJSONArray(TAG_CANCIONES);
+                // products found
+                // Getting Array of Products
+                products = json.getJSONArray(TAG_CANCIONES);
 
-                    // looping through All Products
-                    for (int i = 0; i < products.length(); i++) {
-                        JSONObject c = products.getJSONObject(i);
+                // looping through All Products
+                for (int i = 0; i < products.length(); i++) {
+                    JSONObject c = products.getJSONObject(i);
 
-                        // Storing each json item in variable
-                        String idCancion = c.getString(TAG_ID);
-                        String autor = c.getString(TAG_AUTOR);
-                        String titulo = c.getString(TAG_TITULO);
-                        String album = c.getString(TAG_ALBUM);
-                        String genero = c.getString(TAG_GENERO);
+                    // Storing each json item in variable
+                    String idCancion = c.getString(TAG_ID);
+                    String autor = c.getString(TAG_AUTOR);
+                    String titulo = c.getString(TAG_TITULO);
+                    String album = c.getString(TAG_ALBUM);
+                    String genero = c.getString(TAG_GENERO);
 
-                        canciones.add(new Cancion(Integer.parseInt(idCancion), autor, titulo, album, genero));
+                    canciones.add(new Cancion(Integer.parseInt(idCancion), autor, titulo, album, genero));
 
-                    }
+                }
                 //}
             } catch (JSONException e) {
                 Log.e("Error canciones: ", json.toString());
@@ -208,23 +239,24 @@ public class PeticionesFragment extends Fragment {
                      * Updating parsed JSON data into ListView
                      * */
 
-                    ListView lista = (ListView) rootView.findViewById(R.id.lvSonando);
+                    ListView lista = (ListView) rootView.findViewById(R.id.lvCanciones);
                     adapterList = new ListViewAdapterSimple(getActivity(), canciones);
                     lista.setAdapter(adapterList);
 
+                    filter = adapterList.getFilter();
+                    setupSearchView();
+
                     if (adapterList.isEmpty()) {
                         tvVacio.setVisibility(rootView.VISIBLE);
-                        tvVacio.setText("Todavía no hay peticiones, ¡se el primero en hacer una!");
+                        tvVacio.setText("Este sitio todavía no ha publicado ninguna canción");
                     } else {
                         tvVacio.setVisibility(rootView.INVISIBLE);
                         tvVacio.setText("");
                     }
-
                 }
             });
         }
     }
-
 
     public void cargando(){
         pDialog = new ProgressDialog(getActivity());

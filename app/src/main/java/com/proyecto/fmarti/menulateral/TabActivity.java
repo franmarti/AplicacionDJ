@@ -1,9 +1,9 @@
 package com.proyecto.fmarti.menulateral;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -16,10 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.proyecto.fmarti.menulateral.Fragments.BuscarFragment;
 import com.proyecto.fmarti.menulateral.FragmentsActivityTab.InfoEstFragment;
-import com.proyecto.fmarti.menulateral.FragmentsActivityTab.ListaFragment;
+import com.proyecto.fmarti.menulateral.FragmentsActivityTab.ListaCancionesFragment;
 import com.proyecto.fmarti.menulateral.FragmentsActivityTab.PeticionesFragment;
-import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -31,7 +34,7 @@ public class TabActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+   // private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -50,17 +53,27 @@ public class TabActivity extends AppCompatActivity {
     Bundle bundle = new Bundle();
 
 
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //Activamos las pestañas
+        viewPager = (ViewPager) findViewById(R.id.container);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         //Recuperamos el establecimiento seleccionado
 
@@ -82,10 +95,12 @@ public class TabActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        /*mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+
 
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setAdapter(mSectionsPagerAdapter);*/
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +113,43 @@ public class TabActivity extends AppCompatActivity {
 
     }
 
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(InfoEstFragment.newInstance(bundle), "Información");
+        adapter.addFragment(PeticionesFragment.newInstance(bundle), "Peticiones");
+        adapter.addFragment(ListaCancionesFragment.newInstance(bundle), "Canciones");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,17 +160,13 @@ public class TabActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -127,7 +175,7 @@ public class TabActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+   /* public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -145,7 +193,7 @@ public class TabActivity extends AppCompatActivity {
                 case 1:
                     return PeticionesFragment.newInstance(position + 1, bundle);
                 case 2:
-                    return ListaFragment.newInstance(position + 1);
+                    return ListaCancionesFragment.newInstance(position + 1);
 
             }
             return null;
@@ -169,5 +217,5 @@ public class TabActivity extends AppCompatActivity {
             }
             return null;
         }
-    }
+    }*/
 }

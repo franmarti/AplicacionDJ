@@ -83,7 +83,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
     SearchView searchView;
     ListView lista;
     Spinner spMusica, spCiudades;
-    android.widget.Filter filter;
+    private android.widget.Filter filter;
     private SwipeRefreshLayout swipeContainer;
 
 
@@ -122,7 +122,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchTimelineAsync(0);
+                fetchTimelineAsync();
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -141,8 +141,12 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
 
     }
 
-    public void fetchTimelineAsync(int page) {
+    public void fetchTimelineAsync() {
         establecimientos.clear();
+        estAuxCiudad.clear();
+        estAuxTipo.clear();
+        spMusica.setSelection(0);
+        spCiudades.setSelection(0);
         new CargaTodosEstablecimientos().execute();
        // ocultarTeclado();
     }
@@ -287,7 +291,6 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                                 filter = adapterList.getFilter();
                                 setupSearchView();
                             }
-                            // ocultarTeclado();
                         }
 
                         @Override
@@ -390,9 +393,4 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         pDialog.show();
     }
 
-    public void ocultarTeclado(){
-        //Ocultar teclado
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    }
 }

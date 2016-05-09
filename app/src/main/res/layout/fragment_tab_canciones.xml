@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+
+
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/svBusquedaAutor"
+        android:background="@drawable/post_border_style"
+        android:baselineAligned="true"
+        android:queryHint="Filtrar por autor"
+        android:iconifiedByDefault="false"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainerCanciones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/svBusquedaAutor"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <ListView
+            android:id="@+id/lvCanciones"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:dividerHeight="3dp"
+            android:background="@drawable/post_border_style"
+            android:layout_below="@+id/swipeContainer"
+            android:layout_marginTop="10dp"
+            android:scrollingCache="true"
+            android:drawSelectorOnTop="false" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/tvOcultoCanciones"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/swipeContainerCanciones"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_alignWithParentIfMissing="false"
+        android:gravity="center_horizontal" />
+
+
+</RelativeLayout>

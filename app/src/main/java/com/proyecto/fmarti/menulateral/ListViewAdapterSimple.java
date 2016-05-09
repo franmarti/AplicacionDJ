@@ -10,7 +10,9 @@ import android.content.Context;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.BaseAdapter;
-        import android.widget.ImageView;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ImageView;
         import android.widget.TextView;
 
 import com.proyecto.fmarti.menulateral.Logica.Cancion;
@@ -18,19 +20,13 @@ import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 
 import java.util.ArrayList;
 
-public class ListViewAdapterSimple extends BaseAdapter {
+public class ListViewAdapterSimple extends BaseAdapter implements Filterable{
     // Declare Variables
     Context context;
     String[] titulos, autores;
 
     public ArrayList<Cancion> cancionArrayList;
-
-    public ListViewAdapterSimple(Context context, String[] autores, String[] titulos) {
-        super();
-        this.context = context;
-        this.autores = autores;
-        this.titulos = titulos;
-    }
+    public ArrayList<Cancion> orig;
 
     public ListViewAdapterSimple(Context context,ArrayList<Cancion> canciones) {
         super();
@@ -41,6 +37,38 @@ public class ListViewAdapterSimple extends BaseAdapter {
     public class EstHolder {
         TextView autor;
         TextView titulo;
+    }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                final FilterResults oReturn = new FilterResults();
+                final ArrayList<Cancion> results = new ArrayList<Cancion>();
+                if (orig == null)
+                    orig = cancionArrayList;
+                if (constraint != null) {
+                    if (orig != null && orig.size() > 0) {
+                        for (final Cancion cancion : orig) {
+                            if (cancion.getAutor().toLowerCase().contains(constraint.toString()))
+                                results.add(cancion);
+                        }
+                    }
+                    oReturn.values = results;
+                }
+                return oReturn;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint,
+                                          FilterResults results) {
+                cancionArrayList = (ArrayList<Cancion>) results.values;
+                notifyDataSetChanged();
+            }
+
+
+        };
     }
 
     @Override

@@ -9,20 +9,18 @@ public class Cancion {
     private String titulo;
     private String album;
     private String genero;
-    private String pedida;
 
     public Cancion (){
         //Constructor por defecto
     }
 
 
-    public Cancion(int idCancion,String autor, String titulo, String album, String genero, String pedida) {
+    public Cancion(int idCancion,String autor, String titulo, String album, String genero) {
         this.idCancion = idCancion;
         this.autor = autor;
         this.titulo = titulo;
         this.album = album;
         this.genero = genero;
-        this.pedida = pedida;
     }
 
     public int getIdCancion() {
@@ -64,11 +62,5 @@ public class Cancion {
     public void setGenero(String genero) {
         this.genero = genero;
     }
-    public String getPedida() {
-        return pedida;
-    }
 
-    public void setPedida(String pedida) {
-        this.pedida = pedida;
-    }
 }

@@ -78,17 +78,17 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, CargaEstablecimientos.class);
                                 startActivity(intent);*/
                                 return true;
-                            case R.id.item_navigation_drawer_establecimientos:
+                            /*case R.id.item_navigation_drawer_establecimientos:
                                 menuItem.setChecked(true);
                                 setFragment(1);
                                 drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
-                            case R.id.item_navigation_drawer_sent_perfil:
+                                return true;*/
+                            case R.id.item_navigation_drawer_favorito:
                                 menuItem.setChecked(true);
                                 setFragment(2);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
-                            case R.id.item_navigation_drawer_ajustes:
+                            /*case R.id.item_navigation_drawer_ajustes:
                                 menuItem.setChecked(true);
                                 setFragment(3);
                                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                                 menuItem.setChecked(true);
                                 setFragment(4);
                                 drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                return true;*/
                         }
                         return true;
                     }
@@ -115,13 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.fragment, buscarFragment);
                 fragmentTransaction.commit();
                 break;
-            case 1:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                TodosFragment todosFragment = new TodosFragment();
-                fragmentTransaction.replace(R.id.fragment, todosFragment);
-                fragmentTransaction.commit();
-                break;
+
 
         }
     }
