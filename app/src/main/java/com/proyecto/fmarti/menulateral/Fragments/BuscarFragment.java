@@ -36,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -51,7 +52,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
     private ProgressDialog pDialog;
 
     // Creating JSON Parser object
-    JSONParser jParser = new JSONParser();
+    private JSONParser jParser = new JSONParser();
 
     // url to get all products list
     private static String url_all_establecimientos = "http://projectinf.esy.es/www/getAllEstablecimientos.php";
@@ -70,19 +71,19 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
 
 
     // products JSONArray
-    JSONArray products = null;
+    private JSONArray products = null;
 
     //variables
-    ListViewAdapter adapterList;
+    private ListViewAdapter adapterList;
 
-    ArrayList<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
-    ArrayList<Establecimiento> estAuxTipo = new ArrayList<Establecimiento>();
-    ArrayList<Establecimiento> estAuxCiudad = new ArrayList<Establecimiento>();
+    private ArrayList<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
+    private ArrayList<Establecimiento> estAuxTipo = new ArrayList<Establecimiento>();
+    private ArrayList<Establecimiento> estAuxCiudad = new ArrayList<Establecimiento>();
 
-    View view;
-    SearchView searchView;
-    ListView lista;
-    Spinner spMusica, spCiudades;
+    private View view;
+    private SearchView searchView;
+    private ListView lista;
+    private Spinner spMusica, spCiudades;
     private android.widget.Filter filter;
     private SwipeRefreshLayout swipeContainer;
 
@@ -314,7 +315,11 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                             intent.putExtra(TAG_DESCRIPCION, est.getDescripcion());
                             intent.putExtra(TAG_CIUDAD, est.getCiudad());
                             intent.putExtra(TAG_DIRECCION, est.getDireccion());
-                            //intent.putExtra(TAG_IMAGEN,est.getImagen());
+                            //Convert to byte array
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            est.getImagen().compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            byte[] byteArray = stream.toByteArray();
+                            intent.putExtra(TAG_IMAGEN,byteArray);
                             startActivity(intent);
                             Toast.makeText(getActivity(), est.getNombre(), Toast.LENGTH_SHORT).show();
                         }
