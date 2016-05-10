@@ -37,7 +37,6 @@ public class InfoEstFragment extends Fragment {
     private View rootView;
     private Establecimiento establecimiento;
 
-
     public InfoEstFragment() {
     }
 
