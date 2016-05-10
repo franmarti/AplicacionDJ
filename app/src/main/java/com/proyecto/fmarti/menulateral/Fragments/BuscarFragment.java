@@ -148,7 +148,6 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         spMusica.setSelection(0);
         spCiudades.setSelection(0);
         new CargaTodosEstablecimientos().execute();
-       // ocultarTeclado();
     }
 
 
@@ -304,13 +303,9 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                     lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView adapterView, View view, int posicion, long l) {
-                            Establecimiento est = new Establecimiento();
-                            if (!estAuxTipo.isEmpty())
-                                est = estAuxTipo.get(posicion);
-                            else if (estAuxTipo.isEmpty() && !estAuxCiudad.isEmpty())
-                                est = estAuxCiudad.get(posicion);
-                            else if (estAuxTipo.isEmpty() && estAuxCiudad.isEmpty())
-                                est = establecimientos.get(posicion);
+                            Establecimiento est;
+
+                            est = (Establecimiento) adapterView.getAdapter().getItem(posicion);
 
                             Intent intent = new Intent(getActivity(), TabActivity.class);
                             intent.putExtra(TAG_ID, String.valueOf(est.getId()));

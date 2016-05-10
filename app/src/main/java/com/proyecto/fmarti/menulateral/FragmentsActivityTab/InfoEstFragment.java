@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.proyecto.fmarti.menulateral.R;
 
@@ -45,11 +44,7 @@ public class InfoEstFragment extends Fragment {
         //rootView = inflater.inflate(R.layout.fragment_tab_info, container, false);
 
         if (rootView == null) {
-
             rootView = inflater.inflate(R.layout.fragment_tab_info, container, false);
-
-            // Initialise your layout here
-
         }
 
         /*TextView textView = (TextView) rootView.findViewById(R.id.section_label);

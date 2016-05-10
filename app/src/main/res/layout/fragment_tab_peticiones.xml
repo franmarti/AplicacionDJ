@@ -7,12 +7,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeContainerPeticiones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lvSonando"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:layout_width="wrap_content"

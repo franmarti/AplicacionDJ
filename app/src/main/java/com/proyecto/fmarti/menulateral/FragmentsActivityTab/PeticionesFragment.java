@@ -7,12 +7,14 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +91,8 @@ public class PeticionesFragment extends Fragment {
     private static final String ARG_ESTABLECIMIENTO = "establecimiento";
 
     private View rootView;
+    private SwipeRefreshLayout swipeContainer;
+    private Establecimiento establecimiento;
 
 
     // products JSONArray
@@ -130,7 +134,23 @@ public class PeticionesFragment extends Fragment {
             String direccion = getArguments().getString(TAG_DIRECCION);
             //Bitmap bitmap = (Bitmap) getArguments().getParcelable(TAG_IMAGEN);
 
-            Establecimiento establecimiento = new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, null);
+            establecimiento = new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, null);
+
+            swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainerPeticiones);
+
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    fetchTimelineAsync();
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+            // Configure the refreshing colors
+            swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
             new CargaCancionesPedidas().execute(String.valueOf(establecimiento.getId()));
             // Initialise your layout here
 
@@ -138,6 +158,11 @@ public class PeticionesFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    public void fetchTimelineAsync() {
+        canciones.clear();
+        new CargaCancionesPedidas().execute(String.valueOf(establecimiento.getId()));
     }
 
     class CargaCancionesPedidas extends AsyncTask<String, String, String> {

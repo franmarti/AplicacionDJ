@@ -1,6 +1,5 @@
 package com.proyecto.fmarti.menulateral;
 
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -16,9 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.proyecto.fmarti.menulateral.Fragments.BuscarFragment;
 import com.proyecto.fmarti.menulateral.FragmentsActivityTab.InfoEstFragment;
-import com.proyecto.fmarti.menulateral.FragmentsActivityTab.ListaCancionesFragment;
+import com.proyecto.fmarti.menulateral.FragmentsActivityTab.CancionesFragment;
 import com.proyecto.fmarti.menulateral.FragmentsActivityTab.PeticionesFragment;
 
 import java.util.ArrayList;
@@ -102,14 +100,14 @@ public class TabActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);*/
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "En construcción", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
     }
 
@@ -117,7 +115,7 @@ public class TabActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(InfoEstFragment.newInstance(bundle), "Información");
         adapter.addFragment(PeticionesFragment.newInstance(bundle), "Peticiones");
-        adapter.addFragment(ListaCancionesFragment.newInstance(bundle), "Canciones");
+        adapter.addFragment(CancionesFragment.newInstance(bundle), "Canciones");
         viewPager.setAdapter(adapter);
     }
 
@@ -193,7 +191,7 @@ public class TabActivity extends AppCompatActivity {
                 case 1:
                     return PeticionesFragment.newInstance(position + 1, bundle);
                 case 2:
-                    return ListaCancionesFragment.newInstance(position + 1);
+                    return CancionesFragment.newInstance(position + 1);
 
             }
             return null;

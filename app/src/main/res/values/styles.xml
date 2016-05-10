@@ -8,7 +8,7 @@
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/md_grey_600</item>
         <item name="colorPrimaryDark">@color/md_grey_700</item>
-        <item name="colorAccent">@color/md_grey_600</item>
+        <item name="colorAccent">@color/md_grey_500</item>
         <item name="colorControlHighlight">@color/md_grey_200</item>
         <item name="android:windowBackground">@color/md_grey_400</item>
     </style>
@@ -37,5 +37,12 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/md_black_1000</item>
+        <item name="android:textColorPrimary">@color/md_grey_700</item>
+        <item name="android:background">@color/md_grey_100</item>
+    </style>
+
 
 </resources>
