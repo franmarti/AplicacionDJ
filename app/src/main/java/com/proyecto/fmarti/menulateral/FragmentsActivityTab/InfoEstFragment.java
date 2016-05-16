@@ -7,19 +7,31 @@ package com.proyecto.fmarti.menulateral.FragmentsActivityTab;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.R;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class InfoEstFragment extends Fragment {
+public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -69,12 +81,55 @@ public class InfoEstFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             establecimiento = new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, bitmap);
 
+
+            //Carga de datos en el fragment
             ImageView imagen = (ImageView) rootView.findViewById(R.id.ivInfoEst);
             imagen.setImageBitmap(establecimiento.getImagen());
+
+            TextView tvEstilo = (TextView) rootView.findViewById(R.id.tvInfoEstilo);
+            TextView tvCiudad = (TextView) rootView.findViewById(R.id.tvInfoCiudad);
+            TextView tvMasInfo = (TextView) rootView.findViewById(R.id.tvMasInfo);
+
+            tvEstilo.setText(establecimiento.getTipoMusica());
+            tvCiudad.setText(establecimiento.getCiudad());
+            tvMasInfo.setText(establecimiento.getDescripcion());
+
+            //Botón flotante de favorito
+            FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "En construcción", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+
+            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+
+
+
+            //Mapa de google
+
+
+            /*String mapPath = "https://goo.gl/maps/CBxC3QniAtQ2";
+
+            WebView myWebView = (WebView) rootView.findViewById(R.id.webView);
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.setWebViewClient(new WebViewClient());
+
+            myWebView.loadUrl(mapPath);*/
         }
 
-        /*TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));*/
+
         return rootView;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        // Add a marker in Sydney, Australia, and move the camera.
+        LatLng sydney = new LatLng(-34, 151);
+        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
