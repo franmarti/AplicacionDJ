@@ -1,5 +1,6 @@
 package com.proyecto.fmarti.menulateral;
 
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -48,7 +49,7 @@ public class TabActivity extends AppCompatActivity {
     private static final String TAG_DIRECCION = "direccion";
     private static final String TAG_IMAGEN = "rutaimagen";
 
-    Bundle bundle = new Bundle();
+    private Bundle bundle = new Bundle();
 
 
     private Toolbar toolbar;
@@ -91,6 +92,8 @@ public class TabActivity extends AppCompatActivity {
         bundle.putString(TAG_CIUDAD, ciudad);
         bundle.putString(TAG_DIRECCION, direccion);
     }
+
+
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

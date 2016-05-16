@@ -1,15 +1,20 @@
 package com.proyecto.fmarti.menulateral;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 
@@ -32,7 +37,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
 
 
     //Constructor ArrayList Strings
-    public ListViewAdapter(Context context,  ArrayList<String> nombre, ArrayList<String> id, ArrayList<String> descripcion, ArrayList<Bitmap> imagen ) {
+    public ListViewAdapter(Context context, ArrayList<String> nombre, ArrayList<String> id, ArrayList<String> descripcion, ArrayList<Bitmap> imagen) {
         this.context = context;
         this.nombre = nombre;
         this.id = id;
@@ -47,8 +52,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         this.estArrayList = estArrayList;
     }
 
-    public class EstHolder
-    {
+    public class EstHolder {
         ImageView imgImg;
         TextView tvEstilo;
         TextView tvNombre;
@@ -108,27 +112,47 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        EstHolder holder;
+        final EstHolder holder;
 
-        if(convertView==null)
-        {
-            convertView=LayoutInflater.from(context).inflate(R.layout.list_view_personalizado, parent, false);
-            holder=new EstHolder();
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_view_personalizado, parent, false);
+            holder = new EstHolder();
             holder.imgImg = (ImageView) convertView.findViewById(R.id.imgTV);
-            holder.tvNombre=(TextView) convertView.findViewById(R.id.tvNombre);
-            holder.tvEstilo=(TextView) convertView.findViewById(R.id.tvEstilo);
+            holder.tvNombre = (TextView) convertView.findViewById(R.id.tvNombre);
+            holder.tvEstilo = (TextView) convertView.findViewById(R.id.tvEstilo);
+
             convertView.setTag(holder);
-        }
-        else
-        {
-            holder=(EstHolder) convertView.getTag();
+        } else {
+            holder = (EstHolder) convertView.getTag();
         }
 
         holder.imgImg.setImageBitmap(estArrayList.get(position).getImagen());
         holder.tvNombre.setText(estArrayList.get(position).getNombre());
         holder.tvEstilo.setText(estArrayList.get(position).getTipoMusica());
 
+        holder.imgImg.setOnClickListener(new imageViewClickListener(position));
+
         return convertView;
+    }
+
+    class imageViewClickListener implements View.OnClickListener {
+        int position;
+
+        public imageViewClickListener(int pos) {
+            this.position = pos;
+        }
+
+        public void onClick(View v) {
+            {
+                Dialog nagDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                nagDialog.setCancelable(true);
+                nagDialog.setContentView(R.layout.imagen_full_screen);
+                ImageView ivPreview = (ImageView) nagDialog.findViewById(R.id.iv_preview_image);
+                ivPreview.setImageBitmap(estArrayList.get(position).getImagen());
+                nagDialog.show();
+            }
+        }
     }
 
 

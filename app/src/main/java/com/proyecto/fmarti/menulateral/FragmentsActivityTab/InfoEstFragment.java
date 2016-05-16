@@ -6,6 +6,7 @@ package com.proyecto.fmarti.menulateral.FragmentsActivityTab;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,6 +49,8 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
 
     private View rootView;
     private Establecimiento establecimiento;
+
+    private AsyncTask mTask;
 
     public InfoEstFragment() {
     }
@@ -114,11 +117,20 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        //check the state of the task
+        if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING)
+            mTask.cancel(true);
+    }
+
+    @Override
     public void onMapReady(GoogleMap map) {
         double coord[] = getLatLng();
         LatLng localizacion = new LatLng(coord[0], coord[1]);
         map.addMarker(new MarkerOptions().position(localizacion).title(establecimiento.getNombre()));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(localizacion, 16));
+        
     }
 
     public double[] getLatLng(){

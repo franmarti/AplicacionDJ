@@ -3,22 +3,27 @@ package com.proyecto.fmarti.menulateral.Fragments;
 /**
  * Created by fmarti on 10/03/2016.
  */
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -86,8 +91,10 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
     private Spinner spMusica, spCiudades;
     private android.widget.Filter filter;
     private SwipeRefreshLayout swipeContainer;
+    private ImageView imagen;
 
-    private CargaTodosEstablecimientos
+    private AsyncTask mTask;
+    public static float screen_width;
 
 
 
@@ -120,6 +127,8 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spMusica.setAdapter(adapter);
 
+        imagen = (ImageView) view.findViewById(R.id.imgTV);
+
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -138,10 +147,18 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
 
 
         // Cargar los productos en el Background Thread
-        new CargaTodosEstablecimientos().execute();
+        mTask = new CargaTodosEstablecimientos().execute();
        // ocultarTeclado();
         return view;
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //check the state of the task
+        if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING)
+            mTask.cancel(true);
     }
 
     public void fetchTimelineAsync() {
@@ -150,7 +167,9 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
         estAuxTipo.clear();
         spMusica.setSelection(0);
         spCiudades.setSelection(0);
-        new CargaTodosEstablecimientos().execute();
+        if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING)
+            mTask.cancel(true);
+        mTask = new CargaTodosEstablecimientos().execute();
     }
 
 
@@ -215,10 +234,13 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                     adapterList = new ListViewAdapter(getActivity(), establecimientos);
                     lista.setAdapter(adapterList);
 
+
                     filter = adapterList.getFilter();
                     setupSearchView();
 
                     //Listeners
+
+
                     spMusica.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                         @Override
@@ -321,11 +343,13 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             est.getImagen().compress(Bitmap.CompressFormat.PNG, 100, stream);
                             byte[] byteArray = stream.toByteArray();
-                            intent.putExtra(TAG_IMAGEN,byteArray);
+                            intent.putExtra(TAG_IMAGEN, byteArray);
                             startActivity(intent);
-                            Toast.makeText(getActivity(), est.getNombre(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
+
+
                 }
             });
         }
