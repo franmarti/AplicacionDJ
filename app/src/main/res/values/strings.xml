@@ -156,7 +156,6 @@
         <item> Rap </item>
         <item> Reggae </item>
         <item> Reguetón </item>
-        <item> 40 Principales </item>
     </string-array>
     <string name="title_activity_prueba_tab">PruebaTab</string>
     <string name="title_activity_tab">TabActivity</string>

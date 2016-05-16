@@ -88,11 +88,11 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
 
             TextView tvEstilo = (TextView) rootView.findViewById(R.id.tvInfoEstilo);
             TextView tvCiudad = (TextView) rootView.findViewById(R.id.tvInfoCiudad);
-            TextView tvMasInfo = (TextView) rootView.findViewById(R.id.tvMasInfo);
+            //TextView tvMasInfo = (TextView) rootView.findViewById(R.id.tvMasInfo);
 
             tvEstilo.setText(establecimiento.getTipoMusica());
             tvCiudad.setText(establecimiento.getCiudad());
-            tvMasInfo.setText(establecimiento.getDescripcion());
+            //tvMasInfo.setText(establecimiento.getDescripcion());
 
             //Botón flotante de favorito
             FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
@@ -104,21 +104,9 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
                 }
             });
 
+            //Mapa de google
             SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-
-
-
-            //Mapa de google
-
-
-            /*String mapPath = "https://goo.gl/maps/CBxC3QniAtQ2";
-
-            WebView myWebView = (WebView) rootView.findViewById(R.id.webView);
-            myWebView.getSettings().setJavaScriptEnabled(true);
-            myWebView.setWebViewClient(new WebViewClient());
-
-            myWebView.loadUrl(mapPath);*/
         }
 
 
@@ -127,9 +115,21 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
 
     @Override
     public void onMapReady(GoogleMap map) {
-        // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        double coord[] = getLatLng();
+        LatLng localizacion = new LatLng(coord[0], coord[1]);
+        map.addMarker(new MarkerOptions().position(localizacion).title(establecimiento.getNombre()));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(localizacion, 16));
+    }
+
+    public double[] getLatLng(){
+        String loc = establecimiento.getDireccion();
+        String[] latCad = loc.split("@");
+        latCad = latCad[1].split(",");
+        double lat = Double.parseDouble(latCad[0]);
+        double lon = Double.parseDouble(latCad[1]);
+        double coord[] = {lat, lon};
+        System.out.println("Latitud: ----------> " + lat);
+        System.out.println("Longitud: ----------> " + lon);
+        return coord;
     }
 }

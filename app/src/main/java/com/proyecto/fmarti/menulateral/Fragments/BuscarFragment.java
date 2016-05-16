@@ -87,6 +87,8 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
     private android.widget.Filter filter;
     private SwipeRefreshLayout swipeContainer;
 
+    private CargaTodosEstablecimientos
+
 
 
     @Override

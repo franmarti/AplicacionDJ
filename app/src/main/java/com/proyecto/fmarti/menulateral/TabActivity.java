@@ -90,18 +90,6 @@ public class TabActivity extends AppCompatActivity {
         bundle.putString(TAG_DESCRIPCION, descripcion);
         bundle.putString(TAG_CIUDAD, ciudad);
         bundle.putString(TAG_DIRECCION, direccion);
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        /*mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-
-
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);*/
-
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -159,54 +147,4 @@ public class TabActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-   /* public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a InfoEstFragment (defined as a static inner class below).
-
-            //return PlaceholderFragment.newInstance(position + 1);
-            switch (position) {
-                case 0:
-                    return InfoEstFragment.newInstance(position + 1);
-                case 1:
-                    return PeticionesFragment.newInstance(position + 1, bundle);
-                case 2:
-                    return CancionesFragment.newInstance(position + 1);
-
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Información";
-                case 1:
-                    return "Sonando ahora";
-                case 2:
-                    return "Listas";
-            }
-            return null;
-        }
-    }*/
 }
