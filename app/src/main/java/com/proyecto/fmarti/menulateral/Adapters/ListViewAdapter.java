@@ -1,4 +1,4 @@
-package com.proyecto.fmarti.menulateral;
+package com.proyecto.fmarti.menulateral.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
+import com.proyecto.fmarti.menulateral.R;
 
 import java.util.ArrayList;
 import java.util.Locale;

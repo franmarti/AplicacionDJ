@@ -17,18 +17,13 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.proyecto.fmarti.menulateral.ListViewAdapterSimple;
+import com.proyecto.fmarti.menulateral.Adapters.ListViewAdapterCanciones;
+import com.proyecto.fmarti.menulateral.Adapters.ListViewAdapterPeticiones;
 import com.proyecto.fmarti.menulateral.Logica.Cancion;
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.ParserJSON;
 import com.proyecto.fmarti.menulateral.R;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +49,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class CancionesFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String ARG_SECTION_NUMBER = "2";
-    private ListViewAdapterSimple adapterList;
+    private ListViewAdapterCanciones adapterList;
     private ArrayList<Cancion> canciones = new ArrayList<Cancion>();
 
     // Creating JSON Parser object
@@ -267,7 +262,7 @@ public class CancionesFragment extends Fragment implements SearchView.OnQueryTex
                      * */
 
                     ListView lista = (ListView) rootView.findViewById(R.id.lvCanciones);
-                    adapterList = new ListViewAdapterSimple(getActivity(), canciones);
+                    adapterList = new ListViewAdapterCanciones(getActivity(), canciones);
                     lista.setAdapter(adapterList);
 
                     filter = adapterList.getFilter();

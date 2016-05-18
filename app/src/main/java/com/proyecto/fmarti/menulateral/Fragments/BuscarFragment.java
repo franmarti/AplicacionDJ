@@ -3,35 +3,27 @@ package com.proyecto.fmarti.menulateral.Fragments;
 /**
  * Created by fmarti on 10/03/2016.
  */
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.proyecto.fmarti.menulateral.JSONParser;
-import com.proyecto.fmarti.menulateral.ListViewAdapter;
+import com.proyecto.fmarti.menulateral.Adapters.ListViewAdapter;
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.MainActivity;
 import com.proyecto.fmarti.menulateral.R;

@@ -1,9 +1,6 @@
 package com.proyecto.fmarti.menulateral.FragmentsActivityTab;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,42 +9,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.proyecto.fmarti.menulateral.JSONParser;
-import com.proyecto.fmarti.menulateral.ListViewAdapter;
-import com.proyecto.fmarti.menulateral.ListViewAdapterSimple;
+import com.proyecto.fmarti.menulateral.Adapters.ListViewAdapterPeticiones;
 import com.proyecto.fmarti.menulateral.Logica.Cancion;
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.ParserJSON;
 import com.proyecto.fmarti.menulateral.R;
-import com.proyecto.fmarti.menulateral.TabActivity;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by fmarti on 07/04/2016.
@@ -57,7 +33,7 @@ import java.util.List;
 public class PeticionesFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "2";
-    ListViewAdapterSimple adapterList;
+    ListViewAdapterPeticiones adapterList;
     ArrayList<Cancion> canciones = new ArrayList<Cancion>();
 
     // Creating JSON Parser object
@@ -234,7 +210,7 @@ public class PeticionesFragment extends Fragment {
                      * */
 
                     ListView lista = (ListView) rootView.findViewById(R.id.lvSonando);
-                    adapterList = new ListViewAdapterSimple(getActivity(), canciones);
+                    adapterList = new ListViewAdapterPeticiones(getActivity(), canciones);
                     lista.setAdapter(adapterList);
 
                     if (adapterList.isEmpty()) {

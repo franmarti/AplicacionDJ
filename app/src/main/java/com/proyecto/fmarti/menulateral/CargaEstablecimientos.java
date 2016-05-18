@@ -30,6 +30,8 @@ import java.util.List;
 import android.view.View;
 import android.widget.Toast;
 
+import com.proyecto.fmarti.menulateral.Adapters.ListViewAdapter;
+
 
 public class CargaEstablecimientos extends AppCompatActivity {
 

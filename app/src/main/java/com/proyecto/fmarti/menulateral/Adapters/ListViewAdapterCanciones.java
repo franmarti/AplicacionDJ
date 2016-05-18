@@ -1,4 +1,4 @@
-package com.proyecto.fmarti.menulateral;
+package com.proyecto.fmarti.menulateral.Adapters;
 
 /**
  * Created by fmarti on 20/04/2016.
@@ -6,21 +6,20 @@ package com.proyecto.fmarti.menulateral;
 
 
 import android.content.Context;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.BaseAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-        import android.widget.TextView;
+import android.widget.TextView;
 
 import com.proyecto.fmarti.menulateral.Logica.Cancion;
-import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
+import com.proyecto.fmarti.menulateral.R;
 
 import java.util.ArrayList;
 
-public class ListViewAdapterSimple extends BaseAdapter implements Filterable{
+public class ListViewAdapterCanciones extends BaseAdapter implements Filterable{
     // Declare Variables
     Context context;
     String[] titulos, autores;
@@ -28,7 +27,7 @@ public class ListViewAdapterSimple extends BaseAdapter implements Filterable{
     public ArrayList<Cancion> cancionArrayList;
     public ArrayList<Cancion> orig;
 
-    public ListViewAdapterSimple(Context context,ArrayList<Cancion> canciones) {
+    public ListViewAdapterCanciones(Context context, ArrayList<Cancion> canciones) {
         super();
         this.context = context;
         this.cancionArrayList = canciones;
