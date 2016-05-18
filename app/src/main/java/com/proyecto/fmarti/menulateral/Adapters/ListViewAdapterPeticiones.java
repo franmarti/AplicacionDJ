@@ -21,7 +21,7 @@ import com.proyecto.fmarti.menulateral.R;
 
 import java.util.ArrayList;
 
-public class ListViewAdapterPeticiones extends BaseAdapter implements Filterable{
+public class ListViewAdapterPeticiones extends BaseAdapter{
     // Declare Variables
     Context context;
     String[] titulos, autores;
@@ -38,9 +38,10 @@ public class ListViewAdapterPeticiones extends BaseAdapter implements Filterable
     public class EstHolder {
         TextView autor;
         TextView titulo;
+        TextView votos;
     }
 
-    public Filter getFilter() {
+    /*public Filter getFilter() {
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
@@ -70,7 +71,7 @@ public class ListViewAdapterPeticiones extends BaseAdapter implements Filterable
 
 
         };
-    }
+    }*/
 
     @Override
     public int getCount() {
@@ -96,6 +97,7 @@ public class ListViewAdapterPeticiones extends BaseAdapter implements Filterable
             holder = new EstHolder();
             holder.autor = (TextView) convertView.findViewById(R.id.tvAutor);
             holder.titulo = (TextView) convertView.findViewById(R.id.tvTitulo);
+            holder.votos = (TextView) convertView.findViewById(R.id.tvVotos);
             convertView.setTag(holder);
         } else {
             holder = (EstHolder) convertView.getTag();
@@ -103,6 +105,7 @@ public class ListViewAdapterPeticiones extends BaseAdapter implements Filterable
 
         holder.autor.setText(cancionArrayList.get(position).getAutor());
         holder.titulo.setText(cancionArrayList.get(position).getTitulo());
+        holder.votos.setText(String.valueOf(cancionArrayList.get(position).getVotos()));
 
         return convertView;
     }

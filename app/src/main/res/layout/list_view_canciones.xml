@@ -80,7 +80,7 @@
                         android:layout_height="match_parent"
                         android:id="@+id/imageView"
                         android:src="@drawable/ic_add_black_24dp"
-                        android:clickable="true"
+                        android:clickable="false"
                         android:layout_weight="0.14" />
                 </LinearLayout>
 

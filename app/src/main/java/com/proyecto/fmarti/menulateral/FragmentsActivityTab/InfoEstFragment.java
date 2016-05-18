@@ -116,19 +116,20 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
         return rootView;
     }
 
-    @Override
+/*    @Override
     public void onStop() {
         super.onStop();
         //check the state of the task
         if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING)
             mTask.cancel(true);
-    }
+    }*/
 
     @Override
     public void onMapReady(GoogleMap map) {
         double coord[] = getLatLng();
+        MarkerOptions marker = new MarkerOptions();
         LatLng localizacion = new LatLng(coord[0], coord[1]);
-        map.addMarker(new MarkerOptions().position(localizacion).title(establecimiento.getNombre()));
+        map.addMarker(marker.position(localizacion).title(establecimiento.getNombre()));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(localizacion, 16));
         
     }

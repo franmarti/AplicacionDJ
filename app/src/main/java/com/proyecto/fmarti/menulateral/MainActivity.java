@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.proyecto.fmarti.menulateral.Fragments.TodosFragment;
 import com.proyecto.fmarti.menulateral.Fragments.BuscarFragment;
 
 public class MainActivity extends AppCompatActivity {

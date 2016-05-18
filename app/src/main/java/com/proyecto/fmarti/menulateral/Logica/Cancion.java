@@ -11,20 +11,22 @@ public class Cancion {
     private String genero;
     private String pedida;
     private int idListaCancion;
+    private int votos;
 
     public Cancion (){
         //Constructor por defecto
     }
 
-    public Cancion(int idCancion,String autor, String titulo, String album, String genero) {
+    public Cancion(int idCancion,String autor, String titulo, String album, String genero, int votos) {
         this.idCancion = idCancion;
         this.autor = autor;
         this.titulo = titulo;
         this.album = album;
         this.genero = genero;
+        this.votos = votos;
     }
 
-    public Cancion(int idCancion,String autor, String titulo, String album, String genero, String pedida, int idListaCancion) {
+    public Cancion(int idCancion,String autor, String titulo, String album, String genero, String pedida, int idListaCancion, int votos) {
         this.idCancion = idCancion;
         this.autor = autor;
         this.titulo = titulo;
@@ -32,6 +34,7 @@ public class Cancion {
         this.genero = genero;
         this.pedida = pedida;
         this.idListaCancion = idListaCancion;
+        this.votos = votos;
     }
 
     public int getIdCancion() {
@@ -88,5 +91,13 @@ public class Cancion {
 
     public void setIdListaCancion(int idListaCancion) {
         this.idListaCancion = idListaCancion;
+    }
+
+    public int getVotos() {
+        return votos;
+    }
+
+    public void setVotos(int votos) {
+        this.votos = votos;
     }
 }
