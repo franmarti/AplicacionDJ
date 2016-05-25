@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DJ Talk</string>
+    <string name="app_name">Djou</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_about">Acerca de</string>
     <string name="title_activity_settings">Ajustes</string>
@@ -129,6 +129,9 @@
     <string name="title_tab1">Información</string>
     <string name="title_tab2">Peticiones</string>
     <string name="title_tab3">Listas</string>
+
+    <string name="login">login</string>
+
 
     <!-- Conjunto de Strings de Provincias -->
     <string-array name="Ciudades">

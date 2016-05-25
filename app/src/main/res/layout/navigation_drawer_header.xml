@@ -27,7 +27,8 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:text="@string/tv_nombre"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/tvNombreUsuario" />
 
         <TextView
             android:layout_width="match_parent"
@@ -35,7 +36,8 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:text="@string/tv_email"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/tvCorreoUsuario" />
 
     </LinearLayout>
 </FrameLayout>

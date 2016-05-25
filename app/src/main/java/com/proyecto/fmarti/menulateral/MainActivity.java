@@ -1,5 +1,7 @@
 package com.proyecto.fmarti.menulateral;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.proyecto.fmarti.menulateral.Fragments.BuscarFragment;
 
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setupNavigationDrawerContent(navigationView);
+
 
         //First fragment
         setFragment(0);
@@ -73,30 +79,13 @@ public class MainActivity extends AppCompatActivity {
                                 menuItem.setChecked(true);
                                 setFragment(0);
                                 drawerLayout.closeDrawer(GravityCompat.START);
-                                /*Toast.makeText(MainActivity.this, "Lanzando " + menuItem.getTitle().toString(), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(MainActivity.this, CargaEstablecimientos.class);
-                                startActivity(intent);*/
                                 return true;
-                            /*case R.id.item_navigation_drawer_establecimientos:
-                                menuItem.setChecked(true);
-                                setFragment(1);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;*/
+
                             case R.id.item_navigation_drawer_favorito:
                                 menuItem.setChecked(true);
                                 setFragment(2);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
-                            /*case R.id.item_navigation_drawer_ajustes:
-                                menuItem.setChecked(true);
-                                setFragment(3);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
-                            case R.id.item_navigation_drawer_contacto:
-                                menuItem.setChecked(true);
-                                setFragment(4);
-                                drawerLayout.closeDrawer(GravityCompat.START);
-                                return true;*/
                         }
                         return true;
                     }
@@ -118,4 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

@@ -76,7 +76,7 @@
                             android:id="@+id/tvEstilo"
                             android:layout_marginLeft="15dp" />
 
-                        <LinearLayout
+                       <!-- <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -89,7 +89,7 @@
                                 android:layout_marginRight="10dp"
                                 android:src="@drawable/ic_favorite_black_24dp"
                                 android:clickable="true" />
-                        </LinearLayout>
+                        </LinearLayout>-->
                     </LinearLayout>
 
                 </LinearLayout>

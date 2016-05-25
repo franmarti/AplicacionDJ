@@ -4,6 +4,8 @@ package com.proyecto.fmarti.menulateral.FragmentsActivityTab;
  * Created by fmarti on 07/04/2016.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.R;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -49,6 +56,7 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
 
     private View rootView;
     private Establecimiento establecimiento;
+    private ArrayList<Integer> idFavoritos;
 
     private AsyncTask mTask;
 
@@ -95,15 +103,20 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
 
             tvEstilo.setText(establecimiento.getTipoMusica());
             tvCiudad.setText(establecimiento.getCiudad());
-            //tvMasInfo.setText(establecimiento.getDescripcion());
+
+
+            //cargarFavoritos();
+
 
             //Botón flotante de favorito
             FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "En construcción", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Añadido a favoritos", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+
                 }
             });
 
@@ -145,4 +158,13 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
         System.out.println("Longitud: ----------> " + lon);
         return coord;
     }
+
+    /*public void cargarFavoritos(){
+        SharedPreferences favoritos = getActivity().getSharedPreferences("listaFavoritos", Context.MODE_PRIVATE);
+        Map<String, ?> todosFavoritos = favoritos.getAll();
+        for (Map.Entry<String, ?> entry : todosFavoritos.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+            idFavoritos.add(Integer.valueOf(entry.getValue().toString()));
+        }
+    }*/
 }

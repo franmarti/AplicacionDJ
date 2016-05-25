@@ -93,54 +93,57 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_buscar, container, false);
+        if(view==null){
+            // Inflate the layout for this fragment
+            view = inflater.inflate(R.layout.fragment_buscar, container, false);
 
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Buscar");
-
-
-        ArrayAdapter<CharSequence> adapter;
-
-        spCiudades = (Spinner) view.findViewById(R.id.spCiudades);
-        spMusica = (Spinner) view.findViewById(R.id.spMusica);
-
-        searchView = (SearchView) view.findViewById(R.id.svBusqueda);
-        searchView.clearFocus();
-
-        //Asignas el origen de datos desde los recursos
-        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Ciudades, R.layout.spinner_personalizado);
-
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCiudades.setAdapter(adapter);
-
-        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Musica,
-                R.layout.spinner_personalizado);
-
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spMusica.setAdapter(adapter);
-
-        imagen = (ImageView) view.findViewById(R.id.imgTV);
-
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fetchTimelineAsync();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle("Buscar");
 
 
+            ArrayAdapter<CharSequence> adapter;
 
-        // Cargar los productos en el Background Thread
-        mTask = new CargaTodosEstablecimientos().execute();
-       // ocultarTeclado();
+            spCiudades = (Spinner) view.findViewById(R.id.spCiudades);
+            spMusica = (Spinner) view.findViewById(R.id.spMusica);
+
+            searchView = (SearchView) view.findViewById(R.id.svBusqueda);
+            searchView.clearFocus();
+
+            //Asignas el origen de datos desde los recursos
+            adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Ciudades, R.layout.spinner_personalizado);
+
+            //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spCiudades.setAdapter(adapter);
+
+            adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Musica,
+                    R.layout.spinner_personalizado);
+
+            //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spMusica.setAdapter(adapter);
+
+            imagen = (ImageView) view.findViewById(R.id.imgTV);
+
+            swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    fetchTimelineAsync();
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+            // Configure the refreshing colors
+            swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
+
+
+            // Cargar los productos en el Background Thread
+            mTask = new CargaTodosEstablecimientos().execute();
+            // ocultarTeclado();
+        }
+
         return view;
 
     }

@@ -3,24 +3,20 @@ package com.proyecto.fmarti.menulateral.Adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.R;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by fmarti on 22/03/2016.
@@ -116,7 +112,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         final EstHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_view_personalizado, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_view_establecimiento, parent, false);
             holder = new EstHolder();
             holder.imgImg = (ImageView) convertView.findViewById(R.id.imgTV);
             holder.tvNombre = (TextView) convertView.findViewById(R.id.tvNombre);
