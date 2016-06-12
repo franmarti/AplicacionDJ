@@ -44,9 +44,9 @@ public class TabActivity extends AppCompatActivity {
     private static final String TAG_ID = "id";
     private static final String TAG_NOMBRE = "nombre";
     private static final String TAG_TIPO_MUSICA = "tipoMusica";
-    private static final String TAG_DESCRIPCION = "descripcion";
     private static final String TAG_CIUDAD = "ciudad";
-    private static final String TAG_DIRECCION = "direccion";
+    private static final String TAG_LATITUD = "latitud";
+    private static final String TAG_LONGITUD = "longitud";
     private static final String TAG_IMAGEN = "rutaimagen";
 
     private Bundle bundle = new Bundle();
@@ -79,18 +79,18 @@ public class TabActivity extends AppCompatActivity {
         String idEst = getIntent().getStringExtra(TAG_ID);
         String nombre = getIntent().getStringExtra(TAG_NOMBRE);
         String tpMusica = getIntent().getStringExtra(TAG_TIPO_MUSICA);
-        String descripcion = getIntent().getStringExtra(TAG_DESCRIPCION);
         String ciudad = getIntent().getStringExtra(TAG_CIUDAD);
-        String direccion = getIntent().getStringExtra(TAG_DIRECCION);
+        String latitud = getIntent().getStringExtra(TAG_LATITUD);
+        String longitud = getIntent().getStringExtra(TAG_LONGITUD);
 
         getSupportActionBar().setTitle(nombre);
 
         bundle.putString(TAG_ID, idEst);
         bundle.putString(TAG_NOMBRE, nombre);
         bundle.putString(TAG_TIPO_MUSICA, tpMusica);
-        bundle.putString(TAG_DESCRIPCION, descripcion);
         bundle.putString(TAG_CIUDAD, ciudad);
-        bundle.putString(TAG_DIRECCION, direccion);
+        bundle.putString(TAG_LATITUD, latitud);
+        bundle.putString(TAG_LONGITUD, longitud);
     }
 
 

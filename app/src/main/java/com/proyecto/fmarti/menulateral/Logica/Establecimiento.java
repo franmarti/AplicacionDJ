@@ -10,8 +10,8 @@ public class Establecimiento {
     private String nombre;
     private String tipoMusica;
     private String ciudad;
-    private String descripcion;
-    private String direccion;
+    private String latitud;
+    private String longitud;
 
 
     public Establecimiento (){
@@ -19,14 +19,14 @@ public class Establecimiento {
     }
     private Bitmap imagen;
 
-    public Establecimiento(int id, String nombre, String tipoMusica, String descripcion, String ciudad, String direccion, Bitmap imagen) {
+    public Establecimiento(int id, String nombre, String tipoMusica, String ciudad, String latitud, String longitud, Bitmap imagen) {
 
         this.id = id;
         this.nombre = nombre;
         this.tipoMusica = tipoMusica;
-        this.descripcion = descripcion;
         this.ciudad = ciudad;
-        this.direccion = direccion;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.imagen = imagen;
     }
 
@@ -62,20 +62,20 @@ public class Establecimiento {
         this.ciudad = ciudad;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getLatitud() {
+        return latitud;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setLatitud(String direccion) {
+        this.latitud = direccion;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getLongitud() {
+        return longitud;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 
     public Bitmap getImagen() {

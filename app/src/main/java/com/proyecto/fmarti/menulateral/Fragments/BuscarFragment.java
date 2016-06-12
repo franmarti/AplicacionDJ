@@ -61,9 +61,9 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
     private static final String TAG_ID = "id";
     private static final String TAG_NOMBRE = "nombre";
     private static final String TAG_TIPO_MUSICA = "tipoMusica";
-    private static final String TAG_DESCRIPCION = "descripcion";
     private static final String TAG_CIUDAD = "ciudad";
-    private static final String TAG_DIRECCION = "direccion";
+    private static final String TAG_LATITUD = "latitud";
+    private static final String TAG_LONGITUD = "longitud";
     private static final String TAG_IMAGEN = "rutaimagen";
 
 
@@ -331,9 +331,9 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                             intent.putExtra(TAG_ID, String.valueOf(est.getId()));
                             intent.putExtra(TAG_NOMBRE, est.getNombre());
                             intent.putExtra(TAG_TIPO_MUSICA, est.getTipoMusica());
-                            intent.putExtra(TAG_DESCRIPCION, est.getDescripcion());
                             intent.putExtra(TAG_CIUDAD, est.getCiudad());
-                            intent.putExtra(TAG_DIRECCION, est.getDireccion());
+                            intent.putExtra(TAG_LATITUD, est.getLatitud());
+                            intent.putExtra(TAG_LONGITUD, est.getLongitud());
                             //Convert to byte array
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             est.getImagen().compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -377,9 +377,9 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                     String idEst = c.getString(TAG_ID);
                     String nombre = c.getString(TAG_NOMBRE);
                     String tpMusica = c.getString(TAG_TIPO_MUSICA);
-                    String descripcion = c.getString(TAG_DESCRIPCION);
                     String ciudad = c.getString(TAG_CIUDAD);
-                    String direccion = c.getString(TAG_DIRECCION);
+                    String latitud = c.getString(TAG_LATITUD);
+                    String longitud = c.getString(TAG_LONGITUD);
                     String rutaimagen = c.getString(TAG_IMAGEN);
 
                     //Image to Bitmap
@@ -393,7 +393,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                         bitmap = BitmapFactory.decodeStream(conimagen.getInputStream());
                     }
 
-                    establecimientos.add(new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, bitmap));
+                    establecimientos.add(new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, ciudad, latitud, longitud, bitmap));
 
                 }
             }

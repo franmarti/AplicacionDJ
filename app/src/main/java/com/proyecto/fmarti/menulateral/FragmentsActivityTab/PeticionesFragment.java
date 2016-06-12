@@ -75,9 +75,9 @@ public class PeticionesFragment extends Fragment {
     //Establecimientos
     private static final String TAG_NOMBRE = "nombre";
     private static final String TAG_TIPO_MUSICA = "tipoMusica";
-    private static final String TAG_DESCRIPCION = "descripcion";
     private static final String TAG_CIUDAD = "ciudad";
-    private static final String TAG_DIRECCION = "direccion";
+    private static final String TAG_LATITUD = "latitud";
+    private static final String TAG_LONGITUD = "longitud";
     private static final String TAG_IMAGEN = "rutaimagen";
 
     //ListaCancion
@@ -117,12 +117,12 @@ public class PeticionesFragment extends Fragment {
             String idEst = getArguments().getString(TAG_ID);
             String nombre = getArguments().getString(TAG_NOMBRE);
             String tpMusica = getArguments().getString(TAG_TIPO_MUSICA);
-            String descripcion = getArguments().getString(TAG_DESCRIPCION);
             String ciudad = getArguments().getString(TAG_CIUDAD);
-            String direccion = getArguments().getString(TAG_DIRECCION);
+            String latitud = getArguments().getString(TAG_LATITUD);
+            String longitud = getArguments().getString(TAG_LONGITUD);
             //Bitmap bitmap = (Bitmap) getArguments().getParcelable(TAG_IMAGEN);
 
-            establecimiento = new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, descripcion, ciudad, direccion, null);
+            establecimiento = new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, ciudad, latitud, longitud, null);
 
             swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainerPeticiones);
 
