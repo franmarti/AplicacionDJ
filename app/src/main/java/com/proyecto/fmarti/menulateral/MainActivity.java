@@ -1,7 +1,5 @@
 package com.proyecto.fmarti.menulateral;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -13,11 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.proyecto.fmarti.menulateral.Fragments.BuscarFragment;
+import com.proyecto.fmarti.menulateral.Fragments.FavoritosFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -83,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
                             case R.id.item_navigation_drawer_favorito:
                                 menuItem.setChecked(true);
-                                setFragment(2);
+                                setFragment(1);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                         }
@@ -101,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 BuscarFragment buscarFragment = new BuscarFragment();
                 fragmentTransaction.replace(R.id.fragment, buscarFragment);
+                fragmentTransaction.commit();
+                break;
+            case 1:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                FavoritosFragment favoritosFragment = new FavoritosFragment();
+                fragmentTransaction.replace(R.id.fragment, favoritosFragment);
                 fragmentTransaction.commit();
                 break;
 

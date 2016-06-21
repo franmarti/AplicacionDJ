@@ -4,6 +4,8 @@ package com.proyecto.fmarti.menulateral.FragmentsActivityTab;
  * Created by fmarti on 07/04/2016.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
+public class InfoEstFragment extends Fragment implements OnMapReadyCallback {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -49,6 +51,8 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
     private View rootView;
     private Establecimiento establecimiento;
     private ArrayList<Integer> idFavoritos;
+    private String favString="";
+    private String[] listaFavoritos;
 
     private AsyncTask mTask;
 
@@ -106,8 +110,26 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "¡Añadido a favoritos!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    boolean encontrado = false;
+                    listaFavoritos = cargarFavoritos();
+                    if (listaFavoritos != null) {
+                        for (int i = 0; i < listaFavoritos.length; i++) {
+                            if (listaFavoritos[i].equals(String.valueOf(establecimiento.getId()))) {
+                                encontrado = true;
+                            }
+                        }
+                    }
+
+                    if (!encontrado) {
+                        favString += establecimiento.getId() + ",";
+                        System.out.println("FavString ---> " + favString);
+                        anyadirFavoritos();
+                        Snackbar.make(view, "¡Añadido a favoritos!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    } else {
+                        Snackbar.make(view, "Ya lo tienes en tus favoritos. Accede desde el menú para gestionar tus sitios.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
 
                 }
             });
@@ -135,10 +157,10 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
         LatLng localizacion = new LatLng(Double.parseDouble(establecimiento.getLatitud()), Double.parseDouble(establecimiento.getLongitud()));
         map.addMarker(marker.position(localizacion).title(establecimiento.getNombre()));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(localizacion, 16));
-        
+
     }
 
-    /*public double[] getLatLng(){
+    /*public double[] getFavoritos(){
         String loc = establecimiento.getDireccion();
         String[] latCad = loc.split("@");
         latCad = latCad[1].split(",");
@@ -158,4 +180,25 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback  {
             idFavoritos.add(Integer.valueOf(entry.getValue().toString()));
         }
     }*/
+
+    public void anyadirFavoritos() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("listaFavoritos", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("fav", favString);
+        editor.commit();
+    }
+
+    public String[] cargarFavoritos() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("listaFavoritos", Context.MODE_PRIVATE);
+        favString = sharedPreferences.getString("fav", null);
+        if(favString == null){
+            favString = "";
+            return null;
+        }else{
+            String auxFav = favString;
+            return auxFav.split(",");
+        }
+
+    }
+
 }
