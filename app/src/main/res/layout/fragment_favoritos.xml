@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:dividerHeight="3dp"
-            android:background="@drawable/post_border_style"
             android:layout_below="@+id/swipeContainerFavoritos"
             android:layout_marginTop="5dp"
             android:scrollingCache="true"
@@ -42,9 +41,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/tvOcultoFavoritos"
         android:visibility="invisible"
-        android:layout_alignTop="@+id/swipeContainerFavoritos"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:layout_alignWithParentIfMissing="false"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

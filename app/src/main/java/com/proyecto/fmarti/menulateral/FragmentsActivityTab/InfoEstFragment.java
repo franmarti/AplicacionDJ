@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback {
     private ArrayList<Integer> idFavoritos;
     private String favString="";
     private String[] listaFavoritos;
+    private FloatingActionButton fab;
 
     private AsyncTask mTask;
 
@@ -105,8 +107,8 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback {
 
 
             //Botón flotante de favorito
-            FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-
+            fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+            checkFav();
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -124,6 +126,7 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback {
                         favString += establecimiento.getId() + ",";
                         System.out.println("FavString ---> " + favString);
                         anyadirFavoritos();
+                        fab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_fav_36));
                         Snackbar.make(view, "¡Añadido a favoritos!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
@@ -150,6 +153,21 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback {
         if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING)
             mTask.cancel(true);
     }*/
+
+    public void checkFav(){
+        boolean encontrado = false;
+        listaFavoritos = cargarFavoritos();
+        if (listaFavoritos != null) {
+            for (int i = 0; i < listaFavoritos.length; i++) {
+                if (listaFavoritos[i].equals(String.valueOf(establecimiento.getId()))) {
+                    encontrado = true;
+                }
+            }
+            if(encontrado){
+                fab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_fav_36));
+            }
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap map) {

@@ -3,13 +3,33 @@
 
     <group android:checkableBehavior="single">
         <item
+
             android:checked="true"
             android:id="@+id/item_navigation_drawer_buscar"
-            android:icon="@drawable/ic_search_black_24dp"
+            android:icon="@drawable/ic_busq_24"
             android:title="@string/menu1" />
         <item
             android:id="@+id/item_navigation_drawer_favorito"
             android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/menu3" />
+
+
+    </group>
+
+</menu>
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:checked="true"
+            android:id="@+id/item_navigation_drawer_buscar"
+            android:icon="@drawable/ic_busq_36"
+            android:title="@string/menu1" />
+        <item
+            android:id="@+id/item_navigation_drawer_favorito"
+            android:icon="@drawable/ic_fav_36"
             android:title="@string/menu3" />
     </group>
 
@@ -17,7 +37,7 @@
     </group>
 
 
-    <!--        <menu>
+    &lt;!&ndash;        <menu>
                 <item
                     android:id="@+id/item_navigation_drawer_ajustes"
                     android:icon="@drawable/ic_action_action_settings"
@@ -27,6 +47,6 @@
                     android:icon="@drawable/ic_contact_mail_black_24dp"
                     android:title="@string/subtitulo2" />
             </menu>
-        </item>-->
+        </item>&ndash;&gt;
 
-</menu>
+</menu>-->
