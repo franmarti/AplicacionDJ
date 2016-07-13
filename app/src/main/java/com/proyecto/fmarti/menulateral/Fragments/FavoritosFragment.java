@@ -2,6 +2,7 @@ package com.proyecto.fmarti.menulateral.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,16 +11,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.proyecto.fmarti.menulateral.Adapters.ListViewAdapter;
+import com.proyecto.fmarti.menulateral.Logica.Cancion;
 import com.proyecto.fmarti.menulateral.Logica.Establecimiento;
 import com.proyecto.fmarti.menulateral.MainActivity;
 import com.proyecto.fmarti.menulateral.ParserJSON;
@@ -131,7 +135,7 @@ public class FavoritosFragment extends Fragment {
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
 
-            cargarFavoritos();
+            listaFavoritos = cargarFavoritos();
             new CargaFavoritos().execute(favString);
         }
 
@@ -275,6 +279,45 @@ public class FavoritosFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+
+                    lista.setOnItemLongClickListener(new OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView adapterView, View view,
+                                                       final int posicion, long id) {
+                            final Establecimiento est = (Establecimiento) adapterView.getAdapter().getItem(posicion);
+                            final AlertDialog.Builder builder =
+                                    new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+                            builder.setTitle("¿Eliminar de favoritos?");
+                            builder.setMessage(est.getNombre());
+                            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String auxNuevo = "";
+                                    String[] auxSp = listaFavoritos[0].split(",");
+                                    for (int i = 0; i < auxSp.length; i++) {
+                                        System.out.println("idFavorito --> " + auxSp[i]);
+                                        if(Integer.parseInt(auxSp[i])!=est.getId()){
+                                            auxNuevo += auxSp[i] + ",";
+                                        }
+                                    }
+                                    System.out.println("Nuevo string favoritos --> " + auxNuevo);
+                                    favString = auxNuevo;
+                                    anyadirFavoritos();
+                                    fetchTimelineAsync();
+                                }
+                            });
+                            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            builder.show();
+
+
+                            return true;
+                        }
+                    });
                 }
             });
         }
@@ -284,7 +327,7 @@ public class FavoritosFragment extends Fragment {
 
     public void cargando() {
         pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Cargando canciones. Por favor espere...");
+        pDialog.setMessage("Cargando favoritos. Por favor espere...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
@@ -305,7 +348,7 @@ public class FavoritosFragment extends Fragment {
             return null;
         }else{
             String auxFav = favString;
-            return auxFav.split("\\.");
+            return auxFav.split(", ");
         }
 
     }

@@ -195,26 +195,17 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
 
     class CargaTodosEstablecimientos extends AsyncTask<String, String, String> {
 
-        /**
-         * Antes de empezar el background thread Show Progress Dialog
-         * */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             cargando();
         }
 
-        /**
-         * obteniendo todos los productos
-         * */
         protected String doInBackground(String... args) {
             cargaDatos();
             return null;
         }
 
-        /**
-         * After completing background task Dismiss the progress dialog
-         * **/
         protected void onPostExecute(String file_url) {
             // dismiss the dialog after getting all products
             pDialog.dismiss();
@@ -352,28 +343,23 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
 
     public void cargaDatos(){
         List params = new ArrayList();
-
-
-        // getting JSON string from URL
+        // Se recoge el archivo JSON generado de la petición GET al servidor
         JSONObject json = jParser.makeHttpRequest(url_all_establecimientos, "GET", params);
         Bitmap bitmap;
         // Check your log cat for JSON reponse
         Log.d("All Products: ", json.toString());
 
         try {
-            // Checking for SUCCESS TAG
+            // Si ha tenido exito la consulta
             int success = json.getInt(TAG_SUCCESS);
-
             if (success == 1) {
                 // products found
                 // Getting Array of Products
                 products = json.getJSONArray(TAG_ESTABLECIMIENTOS);
-
-                // looping through All Products
+                // Se recorren los establecimientos
                 for (int i = 0; i < products.length(); i++) {
                     JSONObject c = products.getJSONObject(i);
 
-                    // Storing each json item in variable
                     String idEst = c.getString(TAG_ID);
                     String nombre = c.getString(TAG_NOMBRE);
                     String tpMusica = c.getString(TAG_TIPO_MUSICA);
@@ -382,7 +368,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                     String longitud = c.getString(TAG_LONGITUD);
                     String rutaimagen = c.getString(TAG_IMAGEN);
 
-                    //Image to Bitmap
+                    //Paso de la imagen a Bitmap
                     if(rutaimagen.equals("noimage")){
                         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
                     }
@@ -392,7 +378,7 @@ public class BuscarFragment extends Fragment implements SearchView.OnQueryTextLi
                         conimagen.connect();
                         bitmap = BitmapFactory.decodeStream(conimagen.getInputStream());
                     }
-
+                    //Se crea un objeto por cada establecimiento encontrado en la base de datos
                     establecimientos.add(new Establecimiento(Integer.parseInt(idEst), nombre, tpMusica, ciudad, latitud, longitud, bitmap));
 
                 }

@@ -55,7 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="42dp"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Plaza 25 de Mayo"
+                        android:text="Nombre local"
                         android:id="@+id/tvNombre"
                         android:layout_marginLeft="5dp"
                         android:textColor="#ff000000"

@@ -172,10 +172,10 @@ public class InfoEstFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap map) {
         MarkerOptions marker = new MarkerOptions();
-        LatLng localizacion = new LatLng(Double.parseDouble(establecimiento.getLatitud()), Double.parseDouble(establecimiento.getLongitud()));
+        LatLng localizacion = new LatLng(Double.parseDouble(establecimiento.getLatitud()),
+                Double.parseDouble(establecimiento.getLongitud()));
         map.addMarker(marker.position(localizacion).title(establecimiento.getNombre()));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(localizacion, 16));
-
     }
 
     /*public double[] getFavoritos(){
